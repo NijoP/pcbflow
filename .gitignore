@@ -1,0 +1,30 @@
+# AXON is a methodology repo — knowledge, not build artifacts.
+# Keep generated geometry out; the templates and docs are the source.
+
+# EDA / build outputs (regenerable — never the source of truth)
+*.kicad_pcb-bak
+*-backups/
+fp-info-cache
+gerbers/
+manufacturing/
+*.zip
+
+# Local working copies of a board (make your own repo per board)
+my-board/
+boards/*/build/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Node (if the generator engine is packaged later)
+node_modules/
+npm-debug.log*
+
+# Secrets — never commit tokens/keys
+.env
+*.pat
+*credentials*

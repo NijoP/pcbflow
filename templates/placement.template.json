@@ -1,0 +1,44 @@
+{
+  "$comment": "Placement output + the region plan that produced it. GENERAL: the zone-map shape, the {x,y,rot,layer} per-designator schema, the refdes-silk schema, the audit gotchas. SPECIFIC: zone boxes, anchors, coordinates. Frame: +X right, +Y up, origin bottom-left. AUDIT real geometry from COMPONENT rotation (pad rotation attrs go stale); component (x,y) is the footprint ORIGIN, not the pad centroid.",
+
+  "board": { "outline_mm": [40, 55], "origin": "bottom-left", "center": [20, 27.5], "layers": 4 },
+
+  "zones": {
+    "$comment": "region plan: partition quiet-logic / sensors-centre / noisy-power. edge = which board edge this zone opens to (connectors open OUTWARD).",
+    "MCU":        { "box": [4, 33, 36, 55],  "layer": "TOP",    "edge": "top" },
+    "USB_CHARGE": { "box": [0, 12, 14, 33],  "layer": "TOP",    "edge": "left" },
+    "SENSORS":    { "box": [11, 15, 29, 34], "layer": "BOTTOM", "edge": null },
+    "MOTORS":     { "box": [24, 0, 40, 33],  "layer": "TOP",    "edge": "right" }
+  },
+
+  "anchors": {
+    "$comment": "edge-critical parts get a fixed (x,y,rot) so their opening faces the board edge. rot orients the physical connector mouth OUTWARD.",
+    "J_USB": { "x": 3.8, "y": 25.5, "rot": 270, "why": "USB-C mouth faces -X (left edge)" }
+  },
+
+  "decap_adjacency": {
+    "$comment": "each IC → its decaps, placed by spiral-hug ≤3mm from the IC pin. highest physical-adjacency weight.",
+    "U1": ["C1", "C2", "C3"]
+  },
+
+  "final": {
+    "$comment": "the placed result: one entry per designator. This is data the executor writes to the board and the auditor reads back to verify.",
+    "U1":  { "x": 20.0,  "y": 44.0,  "rot": 0,   "layer": "TOP" },
+    "J1":  { "x": 3.8,   "y": 25.5,  "rot": 270, "layer": "TOP" },
+    "C1":  { "x": 18.5,  "y": 42.0,  "rot": 90,  "layer": "TOP" }
+  },
+
+  "refdes_silk": {
+    "$comment": "measured (not estimated) bbox via getPrimitivesBBox; alignMode=5 (center); fs 40 for ICs, 32 for passives. Assert 0 label-label overlap, 0 label-under-part, 0 over-M2-ring, 0 out-of-board.",
+    "U1": { "x": 20.0, "y": 46.0, "layer": 3, "rot": 0, "fs": 40, "bbox_mm": [18.9, 45.5, 21.1, 46.5] },
+    "C1": { "x": 18.5, "y": 43.5, "layer": 3, "rot": 0, "fs": 32, "bbox_mm": [17.8, 43.1, 19.2, 43.9] }
+  },
+
+  "audit": {
+    "min_gap_mm": 0.40,
+    "hand_solder_min_mm": 0.50,
+    "connector_edge_overhang_mm": 1.0,
+    "whitelist": ["<by-design channel-pitch pairs, named>"],
+    "$comment": "PASS = 0 same-layer pad-gap violations on REAL geometry + practical review (edge parts open outward, sensors share axis) + client sign-off."
+  }
+}

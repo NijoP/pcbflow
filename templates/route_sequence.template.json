@@ -1,0 +1,62 @@
+{
+  "$comment": "Ordered, DRC-gated routing plan. The phase ORDER is GENERAL for any multi-layer high-current board: planes → criticals(hardest-first) → control/gate → PWM → slow → constrained autoroute → power pours + GND pour + stitch LAST. SPECIFIC = net names, coordinates, pour polygons, via-farm sizes. Pouring GND early strands opens — it is ALWAYS the final pass.",
+  "config": "<PROJECT>-<layers>-<FAB>",
+  "board": "<W×H mm>, <N> layers, <stackup>",
+  "placement": "FROZEN — <snapshot path>",
+  "gate": "<the DRC command: board's own tool + this ruleset>",
+  "via_budget": {
+    "signal_fanout": 0,
+    "power_plane_farms": 0,
+    "gnd_plane_ties": 0,
+    "gnda_single_tie": 1,
+    "lambda20_stitch": 0,
+    "asym_return_gnd_vsys_stitch": 0,
+    "total_est": "<sum>"
+  },
+  "phases": [
+    { "phase": 0, "name": "Apply ruleset",
+      "actions": ["apply design_rules.json", "assert 0 nets on default"] },
+
+    { "phase": 1, "name": "Define inner planes",
+      "actions": ["In1 = solid GND", "In2 = <VSYS/power> plane", "set both UNCHECKED so autoroute can't carve them"] },
+
+    { "phase": 2, "name": "Manual criticals — hardest first",
+      "order": [
+        { "n": 1, "net": "USB_DP/USB_DM", "do": "diff pair on F.Cu over solid In1 GND, 0 vias, no foreign via/plane-cut under the corridor", "vias": 0 },
+        { "n": 2, "net": "<fast SPI>", "do": "route; at each F↔B via add a GND↔<plane> bypass cap ≤3mm BOTH ends (asymmetric-plane return)", "vias": "<n> + return caps" },
+        { "n": 3, "net": "<I2C>", "do": "daisy-chain, pull-ups near master", "vias": "<n>" },
+        { "n": 4, "net": "<sensor IRQs>", "do": "short, keep off PWM returns", "vias": "<n>" }
+      ] },
+
+    { "phase": 3, "name": "Power-control web + gate loops",
+      "actions": ["latch/protection cluster", "FET gate resistors star from gate", "analog local pours"] },
+
+    { "phase": 4, "name": "PWM / actuator drive",
+      "actions": ["route PWM; split east/west to avoid crossing plane splits"] },
+
+    { "phase": 5, "name": "LED chain + slow/long signals",
+      "actions": ["autoroute-friendly candidates"] },
+
+    { "phase": 6, "name": "Constrained autoroute (2 passes)",
+      "actions": ["inner planes UNCHECKED", "criticals FIXED", "bulk secondary IO only", "expect 85–95% — hand-finish the fine-pitch tail (Tier-4)"] },
+
+    { "phase": 7, "name": "Power pours + GND pour + stitch — LAST",
+      "actions": [
+        "pour POWER_HC (<VSYS/BAT+>) with via farms at every high-I pad (n × 0.4mm)",
+        "GND pour, collision-checked",
+        "λ/20 stitch: freq = 0.35/t_rise (edge knee, not clock); EXCLUDE the GNDA island polygon",
+        "GNDA single star-tie at <R_STAR> only"
+      ] }
+  ],
+  "mid_checks": [
+    "after phase 2: DRC on criticals only — 0 errors",
+    "after phase 6: 0 unrouted (or a named, understood tail)",
+    "after phase 7: GNDA connected-node count == its own pin count when star-tie removed"
+  ],
+  "handoff_conditions": [
+    "0 unrouted",
+    "DRC 0 errors vs the named ruleset in the board's own tool",
+    "asymmetric-plane return caps present at every cross-plane fast-signal via",
+    "board committed to git"
+  ]
+}

@@ -1,0 +1,49 @@
+[
+  {
+    "_meta": {
+      "$comment": "Per-net current→width from IPC-2221. GENERAL: the formula + the per-net tuple shape. SPECIFIC: net names, currents, widths, hpwl, layers. Rule: any net whose ipc2221 min > ~5mm MUST be method='plane/pour' — a trace is physically absurd. Treat at-limit width as ZERO margin; add >=10%. A 0.5oz inner plane ~= half the ampacity of 1oz outer for the same width.",
+      "basis": "IPC-2221 external 1oz ΔT<=20C (k=0.048); internal 0.5oz derated (k=0.024). I = k·ΔT^0.44·A^0.725, solve A(mil^2) for width.",
+      "high_current_note": "<board's heaviest rail> peak <I>A → plane/pour + via farms only",
+      "usb_note": "diff pair handled in design_rules.json, not here"
+    }
+  },
+  {
+    "net": "<HIGH_CURRENT_NET>",
+    "drc_class": "POWER_HC",
+    "i_cont_A": 5.0,
+    "i_peak_A": 10.5,
+    "route_width_mm": "plane/pour",
+    "ipc2221_min_mm_dT20_1oz_ext": 7.62,
+    "method": "plane/pour",
+    "npins": 7,
+    "hpwl_mm": 20.0,
+    "layers": [1, 2],
+    "xlayer": true
+  },
+  {
+    "net": "<MOTOR_SW>",
+    "drc_class": "POWER_MOTOR",
+    "i_cont_A": 2.5,
+    "i_peak_A": 5.0,
+    "route_width_mm": 2.0,
+    "ipc2221_min_mm_dT20_1oz_ext": 1.9,
+    "method": "wide trace",
+    "npins": 3,
+    "hpwl_mm": 6.0,
+    "layers": [1],
+    "xlayer": false
+  },
+  {
+    "net": "<LOGIC_SIGNAL>",
+    "drc_class": "SIGNAL",
+    "i_cont_A": 0.05,
+    "i_peak_A": 0.1,
+    "route_width_mm": 0.2,
+    "ipc2221_min_mm_dT20_1oz_ext": 0.05,
+    "method": "trace",
+    "npins": 2,
+    "hpwl_mm": 8.0,
+    "layers": [1, 2],
+    "xlayer": true
+  }
+]

@@ -1,0 +1,57 @@
+{
+  "$comment": "Net-class DRC rulebook. Templated from a 4-layer high-current board. SPECIFIC = net names, widths, currents, keepout coords. GENERAL = the class taxonomy, the global-rule keys, the max_width>=20 gotcha, the apply_sequence discipline. Assert 0 nets on 'default' after applying (a class keyed on a stale net name silently matches nothing and PASSES DRC — fail-silent).",
+  "config_name": "<PROJECT>-<layers>-<FAB>",
+  "revision": "<date> — <board> — <derivation note>",
+  "board": "<W×H mm>, <N> layers, <stackup, e.g. F 1oz / In1 GND 0.5oz / In2 VSYS 0.5oz / B 1oz>",
+  "replaces_live_ruleset": "<name of the wrong ruleset NOT to edit in place>",
+  "class_count": 10,
+  "global_rules": {
+    "clearance_mm": 0.15,
+    "min_track_mm": 0.15,
+    "default_track_mm": 0.2,
+    "via_drill_mm": 0.3,
+    "via_dia_mm": 0.5,
+    "hole_to_hole_same_net_mm": 0.25,
+    "hole_to_hole_diff_net_mm": 0.5,
+    "copper_to_outline_mm": 0.3,
+    "pour_clearance_mm": 0.25,
+    "mask_expansion_mm_per_side": 0.0255,
+    "silk_to_pad_mm": 0.15,
+    "silk_text_height_min_mm": 0.8
+  },
+  "net_classes": [
+    { "name": "GND_PLANE",   "nets": ["GND"],            "track_width_mm": 0.5, "min_width_mm": 0.4, "max_width_mm": 20, "clearance_mm": 0.15, "layer_pref": "solid inner plane + fills", "note": "min 0.4 enforces no plane neck" },
+    { "name": "GNDA_PLANE",  "nets": ["GNDA"],           "track_width_mm": 0.5, "min_width_mm": 0.4, "max_width_mm": 20, "clearance_mm": 0.15, "layer_pref": "island, single star-tie", "note": "exclude from stitch grid" },
+    { "name": "POWER_HC",    "nets": ["VSYS", "BAT+"],   "track_width_mm": 2.8, "min_width_mm": 2.0, "max_width_mm": 20, "clearance_mm": 0.2,  "layer_pref": "plane/pour ONLY", "note": ">5A → never a trace" },
+    { "name": "POWER_MOTOR", "nets": ["<MOTn_SW>"],      "track_width_mm": 2.0, "min_width_mm": 1.8, "max_width_mm": 2.5, "clearance_mm": 0.2,  "layer_pref": "wide trace", "note": "neck to 0.8 only at SOT-23 pad" },
+    { "name": "POWER",       "nets": ["+3V3", "VBUS"],   "track_width_mm": 0.5, "min_width_mm": 0.4, "max_width_mm": 20, "clearance_mm": 0.15, "layer_pref": "pour +3V3, trace VBUS", "note": "" },
+    { "name": "ANALOG_PWR",  "nets": ["<+1V8>"],         "track_width_mm": 0.3, "min_width_mm": 0.25,"max_width_mm": 3,  "clearance_mm": 0.15, "layer_pref": "local pour", "note": "regulator bypass" },
+    { "name": "USB_DIFF",    "nets": ["USB_DP", "USB_DM"],"track_width_mm": 0.25,"min_width_mm": 0.25,"max_width_mm": 0.30,"clearance_mm": 0.15,"layer_pref": "F.Cu over GND, 0 vias", "note": "~90Ω diff; see diff_pairs" },
+    { "name": "GATE",        "nets": ["<Qn_G>"],         "track_width_mm": 0.25,"min_width_mm": 0.2, "max_width_mm": 0.40,"clearance_mm": 0.15,"layer_pref": "short, star from FET", "note": "" },
+    { "name": "ANALOG_SENS", "nets": ["<sense lines>"],  "track_width_mm": 0.2, "min_width_mm": 0.2, "max_width_mm": 0.50,"clearance_mm": 0.15,"layer_pref": "keep off PWM/motor returns", "note": "high-Z" },
+    { "name": "SIGNAL",      "nets": ["<all MCU logic>"],"track_width_mm": 0.2, "min_width_mm": 0.2, "max_width_mm": 0.50,"clearance_mm": 0.15,"layer_pref": "F/B", "note": "default, over-margined" }
+  ],
+  "diff_pairs": [
+    { "name": "USB", "pos": "USB_DP", "neg": "USB_DM", "width_mm": 0.25, "gap_mm": 0.15, "len_tol_mm": 0.15, "zdiff_ohm_est": 92.6, "layer": "F.Cu over In1 GND", "note": "FS speed → electrically short; match is best-practice, 0-vias+solid-ref is the hard rule" }
+  ],
+  "geometry_keepouts_MANUAL": [
+    { "id": "usb_mouth_mask", "layers": ["F.Cu", "solder-mask"], "rect_mm": [0, 0, 0, 0], "why": "0.5mm-pitch mask web < 0.15mm bridges; rules can't fix geometry — keepout at the connector mouth" }
+  ],
+  "thermal_relief_per_pad": {
+    "solid_direct": ["<FET drains>", "<charger EP>", "<LDO EP>"],
+    "thermal_spoke_4x": ["<signal/GND pads>"],
+    "npth": ["<M2 mounting holes + keepout>"]
+  },
+  "cautions": [
+    "power-carrying pours (GND_PLANE/POWER_HC/POWER) MUST have max_width_mm >= 20 or the max-track check false-fails on board-spanning pours",
+    "assert 0 nets on 'default' after apply — a class keyed on a renamed net silently matches nothing",
+    "DRC gate = this board's OWN tool with THIS ruleset; never cross tools"
+  ],
+  "apply_sequence": [
+    "clone the wrong live ruleset, don't edit it in place",
+    "create the 10 classes, assign every net",
+    "assert 0 nets remain on 'default'",
+    "set inner planes UNCHECKED so the autorouter can't carve them",
+    "run DRC to confirm the ruleset loads clean on the empty board"
+  ]
+}
