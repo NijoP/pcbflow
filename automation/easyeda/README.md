@@ -3,6 +3,23 @@
 The board-agnostic engine that drives EasyEDA Pro's Standalone-Script API. Used in
 phases 3 (init), 4 (schematic generation), and 9 (placement).
 
+## Transport — how JS reaches the editor
+
+Two backends, one `{ok, v}`/`{ok, err}` envelope, chosen automatically by
+[`session.py`](session.py) (`EdaSession().run(js)`; override with `EDA_BACKEND`):
+
+- [`bridge.py`](bridge.py) — **primary.** Binds to EasyEDA's *official* Bridge Server
+  (`POST /execute`, port range 49620-49629, handshake `service:"easyeda-bridge"`) paired
+  with the `run-api-gateway` editor extension. No Chrome-profile cloning, no OAuth
+  workaround — the user ticks "allow external interaction" and the gateway connects out.
+  Contract mirrored from `easyeda/easyeda-api-skill` (see
+  [`../../docs/17_UPSTREAM_TOOLING_VERDICT.md`](../../docs/17_UPSTREAM_TOOLING_VERDICT.md)).
+- [`../browser/cdp.py`](../browser/cdp.py) — **fallback + screenshots.** Raw Chrome
+  DevTools eval into a logged-in profile. Used when the gateway isn't installed.
+
+> Unit-tested against a stdlib mock ([`test_bridge.py`](test_bridge.py)); the live
+> Bridge path needs a real EasyEDA session with `run-api-gateway` to validate.
+
 ## Files
 
 - [`section_generator.template.js`](section_generator.template.js) — the reusable
