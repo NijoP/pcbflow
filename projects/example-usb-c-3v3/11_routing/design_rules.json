@@ -1,0 +1,21 @@
+{
+  "$comment": "DRC/DFM ruleset for this board — JLCPCB 2-layer 1oz. Matches pcbflow.dfm.RuleSet.jlcpcb(2). The AI DRC-gates the routed board against THIS file (never a bare board). See pcbflow/dfm.py and knowledge/design-standards.md.",
+  "name": "JLCPCB-2L-1oz",
+  "profile": { "vendor": "JLCPCB", "layers": 2, "copper_oz": "1oz" },
+  "rules": {
+    "min_track_width":  { "kind": "min", "limit_mm": 0.15, "severity": "error" },
+    "min_clearance":    { "kind": "min", "limit_mm": 0.15, "severity": "error" },
+    "copper_to_edge":   { "kind": "min", "limit_mm": 0.25, "severity": "error" },
+    "hole_to_copper":   { "kind": "min", "limit_mm": 0.20, "severity": "error" },
+    "min_via_drill":    { "kind": "min", "limit_mm": 0.20, "severity": "error" },
+    "min_via_pad":      { "kind": "min", "limit_mm": 0.50, "severity": "error" },
+    "min_annular_ring": { "kind": "min", "limit_mm": 0.10, "severity": "error" },
+    "min_hole_to_hole": { "kind": "min", "limit_mm": 0.50, "severity": "error" },
+    "min_silk_width":   { "kind": "min", "limit_mm": 0.15, "severity": "warning" },
+    "min_silk_height":  { "kind": "min", "limit_mm": 1.00, "severity": "warning" }
+  },
+  "net_class": {
+    "POWER": { "nets": ["VBUS", "+3V3"], "track_width_mm": 0.4, "note": "<=0.3A here; 0.4mm is comfortable" },
+    "DEFAULT": { "track_width_mm": 0.25 }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "version": "2.0.0",
+  "components": {
+    "gge1": {
+      "props": { "Unique ID": "gge1", "Designator": "J1", "Value": "USB-C 16P",
+        "DeviceName": "TYPE-C-31-M-12", "FootprintName": "TYPE-C-SMD_TYPE-C-31-M-12",
+        "Add into BOM": "yes", "Convert to PCB": "yes",
+        "Supplier": "LCSC", "Supplier Part": "C165948" },
+      "pinInfoMap": {
+        "1": { "name": "VBUS", "number": "1", "net": "VBUS", "props": {} },
+        "2": { "name": "GND",  "number": "2", "net": "GND",  "props": {} },
+        "3": { "name": "CC1",  "number": "3", "net": "CC1",  "props": {} },
+        "4": { "name": "CC2",  "number": "4", "net": "CC2",  "props": {} }
+      }
+    },
+    "gge2": {
+      "props": { "Unique ID": "gge2", "Designator": "R1", "Value": "5.1K",
+        "DeviceName": "Res_0402", "FootprintName": "R0402", "Add into BOM": "yes",
+        "Supplier": "LCSC", "Supplier Part": "C25905" },
+      "pinInfoMap": {
+        "1": { "name": "1", "number": "1", "net": "CC1", "props": {} },
+        "2": { "name": "2", "number": "2", "net": "GND", "props": {} }
+      }
+    },
+    "gge3": {
+      "props": { "Unique ID": "gge3", "Designator": "R2", "Value": "5.1K",
+        "DeviceName": "Res_0402", "FootprintName": "R0402", "Add into BOM": "yes",
+        "Supplier": "LCSC", "Supplier Part": "C25905" },
+      "pinInfoMap": {
+        "1": { "name": "1", "number": "1", "net": "CC2", "props": {} },
+        "2": { "name": "2", "number": "2", "net": "GND", "props": {} }
+      }
+    },
+    "gge4": {
+      "props": { "Unique ID": "gge4", "Designator": "U1", "Value": "ME6211C33",
+        "DeviceName": "ME6211C33M5G-N", "FootprintName": "SOT-23-5", "Add into BOM": "yes",
+        "Supplier": "LCSC", "Supplier Part": "C82942" },
+      "pinInfoMap": {
+        "1": { "name": "VIN", "number": "1", "net": "VBUS", "props": {} },
+        "2": { "name": "GND", "number": "2", "net": "GND",  "props": {} },
+        "3": { "name": "EN",  "number": "3", "net": "VBUS", "props": {} },
+        "5": { "name": "VOUT","number": "5", "net": "+3V3", "props": {} }
+      }
+    },
+    "gge5": {
+      "props": { "Unique ID": "gge5", "Designator": "C1", "Value": "10uF",
+        "DeviceName": "C_0603", "FootprintName": "C0603", "Add into BOM": "yes",
+        "Supplier": "LCSC", "Supplier Part": "C19702" },
+      "pinInfoMap": {
+        "1": { "name": "1", "number": "1", "net": "VBUS", "props": {} },
+        "2": { "name": "2", "number": "2", "net": "GND",  "props": {} }
+      }
+    },
+    "gge6": {
+      "props": { "Unique ID": "gge6", "Designator": "C2", "Value": "10uF",
+        "DeviceName": "C_0603", "FootprintName": "C0603", "Add into BOM": "yes",
+        "Supplier": "LCSC", "Supplier Part": "C19702" },
+      "pinInfoMap": {
+        "1": { "name": "1", "number": "1", "net": "+3V3", "props": {} },
+        "2": { "name": "2", "number": "2", "net": "GND",  "props": {} }
+      }
+    },
+    "gge7": {
+      "props": { "Unique ID": "gge7", "Designator": "R3", "Value": "1K",
+        "DeviceName": "Res_0402", "FootprintName": "R0402", "Add into BOM": "yes",
+        "Supplier": "LCSC", "Supplier Part": "C11702" },
+      "pinInfoMap": {
+        "1": { "name": "1", "number": "1", "net": "+3V3",  "props": {} },
+        "2": { "name": "2", "number": "2", "net": "LED_A", "props": {} }
+      }
+    },
+    "gge8": {
+      "props": { "Unique ID": "gge8", "Designator": "D1", "Value": "Green LED",
+        "DeviceName": "LED_0603", "FootprintName": "LED0603", "Add into BOM": "yes",
+        "Supplier": "LCSC", "Supplier Part": "C72043" },
+      "pinInfoMap": {
+        "1": { "name": "A", "number": "1", "net": "LED_A", "props": {} },
+        "2": { "name": "K", "number": "2", "net": "GND",   "props": {} }
+      }
+    }
+  },
+  "designRule": {
+    "track": { "minWidth": 0.15, "minClearance": 0.15 }
+  },
+  "differentialPair": {},
+  "netClass": {
+    "POWER": { "nets": ["VBUS", "+3V3"] }
+  },
+  "equalLengthNetGroup": {}
+}

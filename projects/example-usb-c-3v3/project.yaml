@@ -1,0 +1,24 @@
+# PCB Flow project manifest — the AI's source of truth for this board.
+# References DECISIONS and STATE, never volatile artifact paths.
+name: example-usb-c-3v3
+title: "USB-C to 3.3 V supply + status LED (worked example)"
+status: reference-example        # not an active build; a teaching artifact
+
+requirement:
+  input: "5 V from USB-C"
+  output: "3.3 V regulated, 300 mA"
+  indicator: "power-on status LED"
+
+decisions:
+  board: "25 x 15 mm, 2-layer, 1 oz"
+  regulator: "ME6211C33M5G-N (LDO, low dropout, 300 mA)"
+  usb_cc: "5.1 kΩ pull-downs on CC1/CC2 (UFP, sink)"
+  drc_profile: "JLCPCB-2L-1oz (11_routing/design_rules.json)"
+
+phase_state:      # decision-based, not file-based
+  "01_feasibility": PASS
+  "02_bom": PASS
+  "04_schematic": PASS      # netlist.enet verifies clean (0 issues)
+  "05_schematic_audit": PASS
+  "08_placement": not-started   # live in EasyEDA
+  "11_routing": not-started     # live in KiCad
