@@ -40,8 +40,9 @@ class EdaSession:
         try:
             if bridge.discover_port() is not None:
                 return "bridge"
-        except Exception:
-            pass
+        except Exception as e:
+            # never swallow silently: say WHY we fell back so a broken Bridge is diagnosable
+            sys.stderr.write(f"[pcbflow] Bridge discovery failed ({e!r}); falling back to CDP.\n")
         return "cdp"
 
     def run(self, js, timeout=bridge.DEFAULT_TIMEOUT):

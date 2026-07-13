@@ -26,6 +26,9 @@ capability sheet / the official jlc-order-dfm-checker before a real order.
 import math
 from dataclasses import dataclass
 
+from .findings import finding
+from .findings import report as report          # re-export the canonical rollup (DRY)
+
 
 @dataclass
 class Rule:
@@ -78,12 +81,15 @@ class RuleSet:
 
 
 # ── The checker (fixed constraint kinds; limits come from the RuleSet) ──
-def _v(rule, value, where, extra=""):
-    return {"rule": rule.name, "severity": rule.severity, "value": round(value, 4),
-            "limit": rule.limit, "where": where,
-            "reason": f"{rule.name} {value:.4g} < {rule.limit} mm{(' — ' + rule.note) if rule.note else ''}"
-                      if rule.kind == "min" else
-                      f"{rule.name} {value:.4g} > {rule.limit} mm{(' — ' + extra) if extra else ''}"}
+def _v(rule, value, where, extra="", nets=None):
+    """Build a harmonized finding for a geometry value that violates a ruleset limit."""
+    reason = (f"{rule.name} {value:.4g} < {rule.limit} mm{(' — ' + rule.note) if rule.note else ''}"
+              if rule.kind == "min" else
+              f"{rule.name} {value:.4g} > {rule.limit} mm{(' — ' + extra) if extra else ''}")
+    return finding(detector="dfm", rule_id=rule.name, category="manufacturability",
+                   severity=rule.severity, confidence="deterministic", evidence_source="ruleset",
+                   summary=reason, where=where, nets=nets or [],
+                   provenance={"value": round(value, 4), "limit": rule.limit, "note": rule.note})
 
 
 def _hole_edge_gap(a, b):
@@ -111,20 +117,22 @@ def run_dfm(design, ruleset):
     rw = R.rule("min_track_width")
     for t in design.get("tracks", []):
         if rw and rw.violated(t.get("width", 0)):
-            V.append(_v(rw, t["width"], f"track@{t.get('net','?')}/{t.get('layer','?')}"))
+            V.append(_v(rw, t["width"], f"track@{t.get('net','?')}/{t.get('layer','?')}",
+                        nets=[t["net"]] if t.get("net") else None))
 
     # vias: drill, pad diameter, annular ring
     rd, rp, ra = R.rule("min_via_drill"), R.rule("min_via_pad"), R.rule("min_annular_ring")
     for vi in design.get("vias", []):
         loc = f"via@({vi.get('x','?')},{vi.get('y','?')}) net={vi.get('net','?')}"
+        vnets = [vi["net"]] if vi.get("net") else None
         if rd and rd.violated(vi.get("drill", 0)):
-            V.append(_v(rd, vi["drill"], loc))
+            V.append(_v(rd, vi["drill"], loc, nets=vnets))
         if rp and "pad" in vi and rp.violated(vi["pad"]):
-            V.append(_v(rp, vi["pad"], loc))
+            V.append(_v(rp, vi["pad"], loc, nets=vnets))
         if ra and "pad" in vi and "drill" in vi:
             ann = (vi["pad"] - vi["drill"]) / 2.0
             if ra.violated(ann):
-                V.append(_v(ra, ann, loc))
+                V.append(_v(ra, ann, loc, nets=vnets))
 
     # vias: hole-to-hole (pairwise, same-net skipped, true edge distance)
     rh = R.rule("min_hole_to_hole")
@@ -136,7 +144,8 @@ def run_dfm(design, ruleset):
                     continue  # same-net: no spacing rule
                 gap = _hole_edge_gap(vias[i], vias[j])
                 if rh.violated(gap):
-                    V.append(_v(rh, gap, f"holes {i}<->{j}"))
+                    pair = [n for n in (vias[i].get("net"), vias[j].get("net")) if n]
+                    V.append(_v(rh, gap, f"holes {i}<->{j}", nets=pair or None))
 
     # silk
     rsw, rsh = R.rule("min_silk_width"), R.rule("min_silk_height")
@@ -149,12 +158,4 @@ def run_dfm(design, ruleset):
     return V
 
 
-def report(violations):
-    """Summarize violations by severity + rule (mirrors the DFM extension's results table)."""
-    by_sev = {"error": 0, "warning": 0}
-    by_rule = {}
-    for v in violations:
-        by_sev[v["severity"]] = by_sev.get(v["severity"], 0) + 1
-        by_rule[v["rule"]] = by_rule.get(v["rule"], 0) + 1
-    return {"total": len(violations), "errors": by_sev["error"], "warnings": by_sev["warning"],
-            "by_rule": by_rule, "pass": by_sev["error"] == 0}
+# `report()` is the canonical rollup from pcbflow.findings (re-exported at module top).

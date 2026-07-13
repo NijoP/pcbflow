@@ -14,7 +14,7 @@ import argparse, shutil, subprocess, sys
 from pathlib import Path
 
 
-def run_drc(board, ruleset=None, run=subprocess.run, which=shutil.which):
+def run_drc(board, ruleset=None, run=subprocess.run, which=shutil.which, timeout=300):
     board = Path(board)
     if not board.exists():
         return {"ok": False, "reason": f"board not found: {board}"}
@@ -31,10 +31,16 @@ def run_drc(board, ruleset=None, run=subprocess.run, which=shutil.which):
                                         "to run: a bare board reports DEFAULT rules as clean "
                                         "(phantom DRC, KI-6). Pass a ruleset.")}
     report = str(board.with_suffix(".drc.rpt"))
-    p = run(["kicad-cli", "pcb", "drc", "--severity-error", "--exit-code-violations",
-             "--schematic-parity", "--output", report, str(board)])
+    cmd = ["kicad-cli", "pcb", "drc", "--severity-error", "--exit-code-violations",
+           "--schematic-parity", "--output", report, str(board)]
+    manual = " ".join(cmd)
+    try:
+        p = run(cmd, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        return {"ok": False, "violations": None, "report": report,
+                "reason": f"kicad-cli DRC timed out after {timeout}s — run it manually: {manual}"}
     rc = getattr(p, "returncode", 0)
-    return {"ok": rc == 0, "violations": rc != 0, "report": report}
+    return {"ok": rc == 0, "violations": rc != 0, "report": report, "manual": manual}
 
 
 def main():

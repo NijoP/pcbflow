@@ -44,7 +44,9 @@ def pick_ws():
 
 async def _eval(js, timeout=120):
     ws_url, _ = pick_ws()
-    async with websockets.connect(ws_url, max_size=None, ping_interval=None) as ws:
+    # open_timeout bounds the connect itself (an unresponsive tab won't hang forever)
+    async with websockets.connect(ws_url, max_size=None, ping_interval=None,
+                                  open_timeout=timeout) as ws:
         # double-async IIFE: catch everything, always return a JSON STRING
         wrapped = ("(async()=>{try{const __r=await (async()=>{%s})();"
                    "return JSON.stringify({ok:true,v:__r});}"
@@ -68,7 +70,8 @@ async def _eval(js, timeout=120):
 
 async def _shot(outfile, timeout=60):
     ws_url, _ = pick_ws()
-    async with websockets.connect(ws_url, max_size=None, ping_interval=None) as ws:
+    async with websockets.connect(ws_url, max_size=None, ping_interval=None,
+                                  open_timeout=timeout) as ws:
         await ws.send(json.dumps({"id": 1, "method": "Page.enable"})); await ws.recv()
         await ws.send(json.dumps({"id": 2, "method": "Page.captureScreenshot",
                                   "params": {"format": "png", "captureBeyondViewport": False}}))

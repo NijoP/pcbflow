@@ -37,13 +37,14 @@ def test_threshold_violations_flagged():
               "vias": [{"net": "A", "drill": 0.15, "pad": 0.30, "x": 0, "y": 0}],  # drill<0.20,pad<0.50,ann<0.10
               "silk": [{"ref": "U1", "width": 0.10, "height": 0.6}]}    # both < min
     v = run_dfm(design, rs)
-    rules = {x["rule"] for x in v}
+    rules = {x["rule_id"] for x in v}
     assert {"max_board_edge", "min_track_width", "min_via_drill", "min_via_pad",
             "min_annular_ring", "min_silk_width", "min_silk_height"} <= rules, rules
     rep = report(v)
     assert rep["errors"] >= 5 and rep["warnings"] >= 2 and rep["pass"] is False
-    # every violation carries a coordinate/ref location + reason (DFM 'coord+reason' pattern)
-    assert all(x["where"] and x["reason"] for x in v)
+    # every violation carries a location + summary + the raw numbers in provenance
+    assert all(x["where"] and x["summary"] for x in v)
+    assert all(x["provenance"].get("limit") is not None for x in v)
 
 
 def test_hole_to_hole_true_distance_and_same_net_skip():
@@ -51,10 +52,10 @@ def test_hole_to_hole_true_distance_and_same_net_skip():
     # two 0.3mm-drill holes, centres 0.6mm apart -> edge gap 0.6-0.3 = 0.30 >= 0.50? no -> violation
     design = {"vias": [{"net": "A", "drill": 0.30, "x": 0, "y": 0},
                        {"net": "B", "drill": 0.30, "x": 0.6, "y": 0}]}
-    assert any(x["rule"] == "min_hole_to_hole" for x in run_dfm(design, rs))
+    assert any(x["rule_id"] == "min_hole_to_hole" for x in run_dfm(design, rs))
     # same net -> skipped (no spacing rule between same-net copper)
     design["vias"][1]["net"] = "A"
-    assert not any(x["rule"] == "min_hole_to_hole" for x in run_dfm(design, rs))
+    assert not any(x["rule_id"] == "min_hole_to_hole" for x in run_dfm(design, rs))
 
 
 def test_phantom_drc_guard():

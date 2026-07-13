@@ -47,10 +47,23 @@ def test_drc_needs_kicad():
         assert res["ok"] is False and "kicad-cli" in res["reason"]
 
 
+def test_drc_timeout_returns_manual_fallback():
+    import subprocess
+    with tempfile.TemporaryDirectory() as t:
+        b = Path(t, "board.kicad_pcb"); b.write_text("x")
+        pro = Path(t, "rules.kicad_pro"); pro.write_text("{}")
+
+        def boom(*a, **k):
+            raise subprocess.TimeoutExpired(cmd="kicad-cli", timeout=1)
+        res = drc.run_drc(str(b), str(pro), run=boom, which=lambda n: "/usr/bin/kicad-cli")
+        assert res["ok"] is False and "timed out" in res["reason"] and "run it manually" in res["reason"]
+
+
 if __name__ == "__main__":
     test_os_and_paths()
     test_find_chrome_injected()
     test_drc_refuses_without_ruleset()
     test_drc_runs_with_ruleset()
     test_drc_needs_kicad()
-    print("PASS — platform: OS/paths, Chrome discovery, DRC ruleset guard (cross-platform).")
+    test_drc_timeout_returns_manual_fallback()
+    print("PASS — platform: OS/paths, Chrome discovery, DRC ruleset guard + timeout fallback.")

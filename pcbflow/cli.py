@@ -12,7 +12,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-from . import __version__, congestion, dfm, enet as enet_mod, erc, geometry, ipc, phases, routing
+from . import (__version__, congestion, dfm, enet as enet_mod, erc, findings, geometry,
+               import_diff, ipc, phases, routing)
 from .project import Project
 
 REPO = Path(__file__).resolve().parent.parent
@@ -151,8 +152,14 @@ def cmd_congestion(a):
 
 
 def _print_violations(items):
-    for v in items:
-        print(f"  [{v['severity']:<7}] {v['rule']:<20} {v.get('where','')}: {v['reason']}")
+    for v in findings.sort_findings(items):
+        print(f"  [{v['severity']:<7}] {v['rule_id']:<20} {v.get('where','')}: {v['summary']}")
+
+
+def _print_trust(items):
+    if items:
+        t = findings.trust_summary(items)
+        print(f"  trust: {t['level']} — {t['by_confidence']}")
 
 
 def cmd_enet(a):
@@ -165,10 +172,14 @@ def cmd_enet(a):
 def cmd_erc(a):
     net = enet_mod.Enet.load(a.file)
     v = erc.run_erc(net)
-    rep = erc.report(v)
+    if getattr(a, "json", False):
+        print(findings.to_json(v))
+        return 0 if findings.report(v)["pass"] else 1
+    rep = findings.report(v)
     print(f"ERC {net.stats()['components']} comps: {rep['errors']} error(s), {rep['warnings']} warning(s)"
           f"  -> {'PASS' if rep['pass'] else 'FAIL'}")
     _print_violations(v)
+    _print_trust(v)
     return 0 if rep["pass"] else 1
 
 
@@ -178,10 +189,14 @@ def cmd_dfm(a):
     rs = dfm.RuleSet.jlcpcb(layers=a.layers or board.get("layers", 2),
                             copper_oz=a.copper or board.get("copper_oz", "1oz"))
     v = dfm.run_dfm(design, rs)
-    rep = dfm.report(v)
+    if getattr(a, "json", False):
+        print(findings.to_json(v))
+        return 0 if findings.report(v)["pass"] else 1
+    rep = findings.report(v)
     print(f"DFM [{rs.name}]: {rep['errors']} error(s), {rep['warnings']} warning(s)"
           f"  -> {'PASS' if rep['pass'] else 'FAIL'}")
     _print_violations(v)
+    _print_trust(v)
     return 0 if rep["pass"] else 1
 
 
@@ -190,25 +205,50 @@ def cmd_verify(a):
     net = enet_mod.Enet.load(a.file)
     struct = net.verify()
     ev = erc.run_erc(net)
-    erep = erc.report(ev)
+    dv = []
+    if a.board:
+        design = json.loads(Path(a.board).read_text())
+        b = design.get("board", {})
+        rs = dfm.RuleSet.jlcpcb(layers=b.get("layers", 2), copper_oz=b.get("copper_oz", "1oz"))
+        dv = dfm.run_dfm(design, rs)
+    all_findings = ev + dv
+    ok = not struct and findings.report(all_findings)["pass"]
+
+    if getattr(a, "json", False):
+        payload = {"file": a.file, "structure_issues": struct,
+                   "findings": findings.sort_findings(all_findings),
+                   "report": findings.report(all_findings),
+                   "trust": findings.trust_summary(all_findings),
+                   "verdict": "PASS" if ok else "FAIL"}
+        print(json.dumps(payload, indent=2, sort_keys=True))
+        return 0 if ok else 1
+
+    erep = findings.report(ev)
     print(f"== verify {a.file} ==")
     print(f"  netlist structure : {'clean' if not struct else str(len(struct)) + ' issue(s)'}")
     for s in struct:
         print(f"    - {s}")
     print(f"  ERC               : {erep['errors']} error(s), {erep['warnings']} warning(s)")
     _print_violations(ev)
-    ok = not struct and erep["pass"]
     if a.board:
-        design = json.loads(Path(a.board).read_text())
-        b = design.get("board", {})
-        rs = dfm.RuleSet.jlcpcb(layers=b.get("layers", 2), copper_oz=b.get("copper_oz", "1oz"))
-        dv = dfm.run_dfm(design, rs)
-        drep = dfm.report(dv)
-        print(f"  DFM [{rs.name}]      : {drep['errors']} error(s), {drep['warnings']} warning(s)")
+        drep = findings.report(dv)
+        print(f"  DFM               : {drep['errors']} error(s), {drep['warnings']} warning(s)")
         _print_violations(dv)
-        ok = ok and drep["pass"]
     print(f"  VERDICT           : {'PASS' if ok else 'FAIL'}")
     return 0 if ok else 1
+
+
+def cmd_import_check(a):
+    """Phase-10 gate: does the KiCad board match the .enet netlist? (fails loudly on drift)."""
+    fs, rep = import_diff.check(a.netlist, a.board)
+    if getattr(a, "json", False):
+        print(findings.to_json(fs))
+        return 0 if rep["pass"] else 1
+    verdict = "MATCH" if rep["pass"] else "MISMATCH"
+    print(f"import-check {a.netlist} vs {a.board}: "
+          f"{rep['errors']} error(s), {rep['warnings']} warning(s)  -> {verdict}")
+    _print_violations(fs)
+    return 0 if rep["pass"] else 1
 
 
 def build_parser():
@@ -272,18 +312,29 @@ def build_parser():
     en.add_argument("file"); en.set_defaults(fn=cmd_enet)
 
     er = sub.add_parser("erc", help="electrical rule check on an .enet netlist")
-    er.add_argument("file"); er.set_defaults(fn=cmd_erc)
+    er.add_argument("file")
+    er.add_argument("--json", action="store_true", help="emit harmonized findings as JSON")
+    er.set_defaults(fn=cmd_erc)
 
     df = sub.add_parser("dfm", help="DRC/DFM check on a board-features JSON (JLCPCB profile)")
     df.add_argument("design")
     df.add_argument("--layers", type=int, default=None)
     df.add_argument("--copper", default=None)
+    df.add_argument("--json", action="store_true", help="emit harmonized findings as JSON")
     df.set_defaults(fn=cmd_dfm)
 
     vf = sub.add_parser("verify", help="offline phase-5 audit: netlist verify + ERC (+ DFM)")
     vf.add_argument("file", help="the .enet netlist")
     vf.add_argument("--board", default=None, help="optional board-features JSON for DFM")
+    vf.add_argument("--json", action="store_true", help="emit the full audit as JSON")
     vf.set_defaults(fn=cmd_verify)
+
+    ck = sub.add_parser("import-check",
+                        help="verify a KiCad board matches its .enet netlist (fails loudly)")
+    ck.add_argument("netlist", help="the .enet netlist")
+    ck.add_argument("board", help="the .kicad_pcb")
+    ck.add_argument("--json", action="store_true", help="emit harmonized findings as JSON")
+    ck.set_defaults(fn=cmd_import_check)
 
     return ap
 
