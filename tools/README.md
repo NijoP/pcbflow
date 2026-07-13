@@ -83,8 +83,29 @@ python3 tools/test_axon_log.py       # Phase 1: logging envelope + schema
 python3 tools/test_reliability.py    # Phase 2: diagnose + retry + idempotency
 ```
 
+## `heal.py` + `recovery.py` — self-healing engine (Phase 3)
+
+`heal(logger, step, action, recoveries=...)` runs a step and, on failure, diagnoses it,
+runs the mapped recovery, and either recovers-and-retries or **escalates with a
+plain-English message** (What happened / Why / What I tried / Result / What you need to
+do). `recovery.py` provides the per-subsystem strategies (renderer reset, session
+re-auth, Chrome attach/singleton, edit-lock, KiCad import checks) with injectable live
+operations, so an engineer never sees a stack trace.
+
+> The browser/KiCad recovery **logic** is tested with injected dependencies; the **live
+> operations** (CDP tab reset, Chrome relaunch, pcbnew edits) need validation against a
+> real EasyEDA/KiCad session before you rely on them.
+
+## Tests
+
+```bash
+python3 tools/test_axon_log.py       # Phase 1: logging envelope + schema
+python3 tools/test_reliability.py    # Phase 2: diagnose + retry + idempotency
+python3 tools/test_heal.py           # Phase 3: heal engine + humanize + recovery checks
+```
+
 ## What's next
 
-Phases 1–2 are built. Phases 3–5 (renderer-hang / session auto-recovery, Chrome & KiCad
-import recovery, the human-friendly error layer, cross-platform hardening) are in
+Phases 1–3 are built. Phases 4–5 (cross-platform hardening for Windows/macOS; the
+optional schematic-alignment tidy pass) are in
 [`../reliability/ROADMAP.md`](../reliability/ROADMAP.md).

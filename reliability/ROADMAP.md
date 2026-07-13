@@ -54,7 +54,14 @@ Outcome: no more cryptic mid-task deaths; every failure is recorded and named.
 
 Outcome: the top-5 S1 risks become auto-recovered or safely checkpointed.
 
-## Phase 3 — Recover the hard cases + human-friendly layer
+## Phase 3 — Recover the hard cases + human-friendly layer · ✅ BUILT
+
+> **Implemented** in [`../tools/`](../tools/): `heal.py` (the self-healing engine +
+> the What/Why/Tried/Result/Action human-friendly layer + fault→strategy registry) and
+> `recovery.py` (renderer reset, session re-auth, Chrome attach/singleton, edit-lock,
+> KiCad import checks). Tests pass (`test_heal.py`, 6/6). **The browser/KiCad recovery
+> logic needs validation against a live EasyEDA/KiCad session** before production use;
+> the pure decision logic and KiCad checks are fully tested.
 
 7. **Renderer-hang auto-reset** (EDA-7) and **session re-auth + resume** (EDA-1/2).
 8. **Chrome/CDP recovery** (Singleton clear, relaunch, edit-lock resolution).
