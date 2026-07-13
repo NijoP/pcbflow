@@ -22,8 +22,14 @@ pcbflow status my-board                                   # current phase + verd
 pcbflow verdict my-board 1 PASS --note "feasible"          # record a phase verdict
 pcbflow advance my-board                                   # -> next phase (REQUIRES a PASS)
 pcbflow phases                                             # list the 12 phases
+pcbflow gate my-board 5                                    # COMPUTE a gate (runs the checks) + record it
+pcbflow export my-board --approval approval.json           # manufacturing export — HARD-BLOCKED
 ```
-`advance` refuses to move on without a `PASS` — *place nothing over wrong*, enforced.
+`gate` doesn't store an opinion — it *runs* the phase's real checks (ERC on the netlist, DFM/DRC
+on the board, spacing on the placement) and records the computed verdict. `export` **refuses**
+to produce fab files unless every gate PASSES **and** a human approval-evidence file exists
+(`approved_by` / `approved_at_utc` / `scope`). It never signs off a DRC and **never orders a
+board** — you do. `advance` refuses to move on without a `PASS` — *place nothing over wrong*, enforced.
 Project state lives in `projects/<name>/pcbflow_state.json` (JSON, so a crash never
 loses your place).
 
@@ -72,7 +78,7 @@ pcbflow drc board.kicad_pcb rules.kicad_pro   # KiCad DRC (phantom-guard)
 
 | Layer | Where |
 |---|---|
-| Phase order + gating | `pcbflow/phases.py`, `pcbflow/project.py` |
+| Phase order + gating | `pcbflow/phases.py`, `pcbflow/project.py`, `pcbflow/gates.py` |
 | IPC-2221 solver | `pcbflow/ipc.py` |
 | Offline checks (ERC / DFM / spacing) | `pcbflow/erc.py`, `pcbflow/dfm.py`, `pcbflow/geometry.py` |
 | KiCad file reader + import diff | `pcbflow/kicad_sexp.py`, `pcbflow/import_diff.py` |

@@ -7,6 +7,15 @@ All notable changes to PCB Flow are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **Machine-computed phase gates + hard-blocked export** (`pcbflow/gates.py`, WS3) — the 12
+  checkpoints become gates that *run* the checks instead of storing an asserted verdict:
+  `compute_phase_gate` executes ERC (schematic), DFM/DRC (board), or spacing (placement) and
+  folds the harmonized findings into a `GateOutcome` with an explicit status hierarchy
+  (`BLOCKED > EMPTY > FAIL > WARN > PASS`). New verbs: **`pcbflow gate <proj> <phase>`** computes
+  a gate and records the verdict; **`pcbflow export <proj>`** hard-blocks manufacturing output
+  until every gate PASSES **and** a human approval-evidence file (`approved_by` /
+  `approved_at_utc` / `scope`) exists. Export never signs off a DRC and never orders a board —
+  human-in-the-loop is enforced in code (you cannot approve past a failing gate).
 - **Offline KiCad S-expression reader** (`pcbflow/kicad_sexp.py`, WS4) — zero-dependency parser
   that reads a saved `.kicad_pcb` / `.kicad_sch` directly (no running KiCad, no pcbnew) and
   extracts the post-layout netlist. Handles all three pad-net encodings KiCad emits

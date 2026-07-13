@@ -12,7 +12,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from . import (__version__, congestion, dfm, enet as enet_mod, erc, findings, geometry,
+from . import (__version__, congestion, dfm, enet as enet_mod, erc, findings, gates, geometry,
                import_diff, ipc, phases, routing)
 from .project import Project
 
@@ -238,6 +238,56 @@ def cmd_verify(a):
     return 0 if ok else 1
 
 
+def _cli_drc_runner(board):
+    """DRC runner for the gates layer: shells to tools/drc.py (the phantom-guarded kicad-cli
+    runner) and maps its exit code to the {ok, violations, reason} contract gates.gate_drc reads."""
+    p = subprocess.run([sys.executable, str(REPO / "tools/drc.py"), board],
+                       capture_output=True, text=True)
+    rpt = board + ".drc.rpt"
+    if p.returncode == 0:
+        return {"ok": True, "report": rpt}
+    if p.returncode == 1:
+        return {"ok": False, "violations": True, "report": rpt}
+    return {"ok": False, "reason": (p.stderr or p.stdout or "DRC could not run").strip()}
+
+
+def cmd_gate(a):
+    """Compute a phase gate by RUNNING its checks, and record the resulting verdict."""
+    proj_dir = PROJECTS / a.name
+    out = gates.compute_phase_gate(proj_dir, a.phase, drc_runner=_cli_drc_runner)
+    print(f"gate phase {a.phase} ({phases.phase_name(a.phase)}): {out.status} — {out.summary}")
+    for d in out.details[:20]:
+        print(f"    {d}")
+    if not a.no_record:
+        proj = Project(proj_dir)
+        if not proj.state_file.exists():          # allow gating a project dir not yet `init`ed
+            proj = Project.init(PROJECTS, a.name)
+        verdict = gates.status_to_verdict(out.status)
+        proj.record_verdict(a.phase, verdict, note=f"computed gate {out.status}: {out.summary}")
+        print(f"  recorded verdict: {verdict}"
+              + ("  (advance allowed)" if verdict == "PASS" else "  (advance still blocked)"))
+    return 0 if out.status == "PASS" else 1
+
+
+def cmd_export(a):
+    """Manufacturing export — HARD-BLOCKED until every gate PASSES and a human approval file exists.
+    Never signs off a DRC; never orders a board."""
+    proj_dir = PROJECTS / a.name
+    cleared, outcomes, reasons = gates.export_check(proj_dir, a.approval, drc_runner=_cli_drc_runner)
+    print(f"export {a.name}:")
+    for o in outcomes:
+        print(f"  gate {o.name:<15} {o.status:<8} {o.summary}")
+    if not cleared:
+        print("  BLOCKED — manufacturing export refused:")
+        for r in reasons:
+            print(f"    - {r}")
+        print("  (no DRC is auto-signed, no board is ordered — resolve the above, then re-run)")
+        return 1
+    print("  CLEARED — every gate PASSES and human approval is on file.")
+    print("  → produce the manufacturing files; YOU place the order (PCB Flow never orders).")
+    return 0
+
+
 def cmd_import_check(a):
     """Phase-10 gate: does the KiCad board match the .enet netlist? (fails loudly on drift)."""
     fs, rep = import_diff.check(a.netlist, a.board)
@@ -335,6 +385,19 @@ def build_parser():
     ck.add_argument("board", help="the .kicad_pcb")
     ck.add_argument("--json", action="store_true", help="emit harmonized findings as JSON")
     ck.set_defaults(fn=cmd_import_check)
+
+    gt = sub.add_parser("gate", help="compute a phase gate by RUNNING its checks + record the verdict")
+    gt.add_argument("name")
+    gt.add_argument("phase", type=int)
+    gt.add_argument("--no-record", action="store_true", help="compute only; don't record a verdict")
+    gt.set_defaults(fn=cmd_gate)
+
+    ex = sub.add_parser("export",
+                        help="manufacturing export — HARD-BLOCKED until gates pass + human approval")
+    ex.add_argument("name")
+    ex.add_argument("--approval", default=None,
+                    help="approval-evidence JSON (approved_by / approved_at_utc / scope)")
+    ex.set_defaults(fn=cmd_export)
 
     return ap
 
