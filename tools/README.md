@@ -7,7 +7,7 @@ Python 3 standard library — **nothing to install**. These make failures *visib
 ## `doctor.py` — the preflight environment check
 
 Run it before starting work (or any time something feels off). It checks your OS,
-tools, and AXON setup, and tells you in plain English how to fix anything missing.
+tools, and Tracewright setup, and tells you in plain English how to fix anything missing.
 
 ```bash
 python3 tools/doctor.py           # readiness to get started (phases 1–2)
@@ -17,7 +17,7 @@ python3 tools/doctor.py --json    # machine-readable (for the AI)
 python3 tools/doctor.py --ascii   # plain symbols if your terminal lacks emoji
 ```
 
-It checks: operating system · Python · Git (+ identity) · AXON config files · Node.js ·
+It checks: operating system · Python · Git (+ identity) · Tracewright config files · Node.js ·
 Chrome · rsync · VS Code · EasyEDA reachability · KiCad. Tools you don't need yet
 (e.g. KiCad before phase 10) show as a note, not a blocker. **Exit code 0 = ready;
 1 = a required tool is missing** — so the AI can gate on it automatically.

@@ -14,7 +14,7 @@ English, and refuses to start if something critical is missing. This closes ever
 
 ```
 $ axon doctor
-AXON environment check ───────────────────────────────
+Tracewright environment check ───────────────────────────────
   ✅ Operating system     Linux (supported)
   ✅ Git                   2.43.0
   ✅ Node.js               v20.11 (need ≥18)
@@ -54,7 +54,7 @@ routing). **Red** = blocks work; execution stops with the exact fix.
 | **VS Code + AI** | Yes | an AI assistant responds | install/sign into Claude Code / Codex / OpenCode |
 | **EasyEDA reachable** | Yes (from ph.3) | editor URL loads | check network |
 | **EasyEDA signed in** | Yes (from ph.3) | no login DOM on the editor tab | sign into EasyEDA |
-| **AI config** | Yes | `CLAUDE.md`/`AGENTS.md` present & readable | you're in the AXON folder? re-clone if missing |
+| **AI config** | Yes | `CLAUDE.md`/`AGENTS.md` present & readable | you're in the Tracewright folder? re-clone if missing |
 
 \* required once automation actually runs (phases 3+). Phases 1–2 (feasibility, BOM)
 need only VS Code + the AI.

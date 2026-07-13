@@ -1,6 +1,6 @@
 # docs/ — The Reference Library
 
-The stable, deep engineering essays behind AXON. The operational layers
+The stable, deep engineering essays behind Tracewright. The operational layers
 (`workflow/`, `agents/`, `automation/`, `knowledge/`) link *into* these for the
 "why." They change slowly; contributors keep them evergreen.
 
@@ -24,5 +24,5 @@ The stable, deep engineering essays behind AXON. The operational layers
 | [`15_ROADMAP.md`](15_ROADMAP.md) | where this goes next |
 | [`16_VERSION_2.md`](16_VERSION_2.md) | the ideal rebuild-from-zero design (largely realized in this redesign) |
 
-New to AXON? Don't start here — start with [`../DESIGN_WORKFLOW.md`](../DESIGN_WORKFLOW.md)
+New to Tracewright? Don't start here — start with [`../DESIGN_WORKFLOW.md`](../DESIGN_WORKFLOW.md)
 and [`../ARCHITECTURE.md`](../ARCHITECTURE.md). Come here for depth on a specific topic.

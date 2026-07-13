@@ -86,7 +86,7 @@ The origin project coupled its status ledger to **artifact paths**. A row said
 was later deleted in a pivot. The ledger then asserted a finished board that did not
 exist — and *kept* asserting it, session after session, because nothing checked.
 
-Three fixes, now baked into AXON:
+Three fixes, now baked into Tracewright:
 
 1. **Status references decisions, not paths.** "4-layer, In2=VSYS plane, 10-class
    ruleset frozen, routing not started" — every claim verifiable against the

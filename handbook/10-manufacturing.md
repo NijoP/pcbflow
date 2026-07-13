@@ -54,7 +54,7 @@ the busywork and you making every real call.
 
 **One last thing:** if anything surprised you or went wrong, tell the AI to record
 the lesson. It writes it into [`../knowledge/learning-db.md`](../knowledge/learning-db.md)
-so your **next** board avoids it. That's how AXON gets better with every project.
+so your **next** board avoids it. That's how Tracewright gets better with every project.
 
 ---
 ◀ [09 — Verification](09-verification.md) · [Handbook home](README.md)

@@ -1,6 +1,6 @@
 # agents/ — The AI Worker Roles
 
-AXON is driven by a team of AI agents, one per phase, coordinated by an
+Tracewright is driven by a team of AI agents, one per phase, coordinated by an
 orchestrator. Each file here is an **agent definition** — a role an AI is
 instantiated into. They are stable; the board changes, the roles don't.
 

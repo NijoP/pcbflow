@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-axon_log — structured logging for AXON automation.
+axon_log — structured logging for Tracewright automation.
 
 Implements the two things Phase 1 of the reliability roadmap needs:
 

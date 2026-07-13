@@ -1,6 +1,6 @@
 # workflow/ — The 12-Phase Engineering Pipeline
 
-This is the canonical, gated process every AXON project follows. One file per
+This is the canonical, gated process every Tracewright project follows. One file per
 phase, each in the same shape so an agent or engineer can pick up any phase
 without re-reading the rest.
 

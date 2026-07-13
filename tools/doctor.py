@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-axon doctor — preflight environment check for the AXON workspace.
+axon doctor — preflight environment check for the Tracewright workspace.
 
-Run this before any design work. It verifies the tools, the OS, and the AXON
+Run this before any design work. It verifies the tools, the OS, and the Tracewright
 config, explains any problem in plain English, and tells you exactly how to fix it.
 Pure Python 3 standard library — nothing to install.
 
@@ -127,8 +127,8 @@ def check_vscode():
 
 def check_ai_config():
     ok = (REPO_ROOT / "CLAUDE.md").exists() and (REPO_ROOT / "AGENTS.md").exists()
-    return mk("AXON config (CLAUDE.md / AGENTS.md)", ok, "present" if ok else "missing",
-              "Open the AXON folder in VS Code (or re-clone the repository)", 0)
+    return mk("Tracewright config (CLAUDE.md / AGENTS.md)", ok, "present" if ok else "missing",
+              "Open the Tracewright folder in VS Code (or re-clone the repository)", 0)
 
 
 def check_easyeda():
@@ -158,7 +158,7 @@ def effective(chk, target_phase):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="AXON environment preflight check")
+    ap = argparse.ArgumentParser(description="Tracewright environment preflight check")
     ap.add_argument("--phase", type=int, default=1, help="check readiness up to this workflow phase (1-12)")
     ap.add_argument("--all", action="store_true", help="check the whole pipeline (implies --phase 12)")
     ap.add_argument("--json", action="store_true", help="machine-readable output")
@@ -181,7 +181,7 @@ def main():
 
     fails = sum(1 for _, s in results if s == FAIL)
     warns = sum(1 for _, s in results if s == WARN)
-    print(f"AXON environment check  (readiness for phase {target}) "
+    print(f"Tracewright environment check  (readiness for phase {target}) "
           + "─" * 20)
     for chk, s in results:
         print(f"  {sym[s]} {chk['name']:<34} {chk['detail']}")

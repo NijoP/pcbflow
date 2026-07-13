@@ -47,7 +47,7 @@ terminal, run it, and say *"retry."*
 
 ## "I closed VS Code / my PC restarted — did I lose work?"
 **What it means:** nothing. Your work is saved in your project folder and its history.
-**Do this:** re-open the AXON folder and say *"continue where we left off on
+**Do this:** re-open the Tracewright folder and say *"continue where we left off on
 projects/<your-board>."* The AI resumes at the exact next step.
 
 ## "It couldn't publish to GitHub"

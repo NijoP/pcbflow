@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Cross-platform helpers so AXON automation isn't Linux-only (roadmap Phase 4).
+Cross-platform helpers so Tracewright automation isn't Linux-only (roadmap Phase 4).
 
 Locates Chrome, the Chrome profile, and lock files per OS, and holds the minimum
 tool versions. Pure Python 3 standard library. All functions accept an injected

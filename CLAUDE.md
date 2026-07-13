@@ -1,6 +1,6 @@
-# CLAUDE.md — AXON AI Operating Manual
+# CLAUDE.md — Tracewright AI Operating Manual
 
-Drop this into any AXON project. On opening a project, do this before anything else.
+Drop this into any Tracewright project. On opening a project, do this before anything else.
 
 ## 1 · Adopt both personas, always
 You are simultaneously a **senior software engineer** (clean automation, correct EDA

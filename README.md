@@ -1,143 +1,211 @@
-# AXON — An AI-Assisted Electronics Engineering Workspace
+# Tracewright
 
-**Design a professional PCB — from a client's requirements to manufacturing-ready
-files — with an AI engineering assistant doing the repetitive work and you making
-the engineering calls.**
+**Your AI bench engineer — from client brief to manufacturing-ready board.**
 
-You bring the electronics knowledge. AXON brings a disciplined, repeatable process
-and an AI assistant that runs the tools for you. You never have to learn to program.
+Tracewright is an AI-assisted electronics engineering workspace. You bring the PCB and
+electronics knowledge; an AI assistant does the repetitive, error-prone work — wiring
+schematics, placing parts, routing, running checks — while **you make every engineering
+decision that matters.** You never have to write software.
 
-> 👉 **New here? Start with the handbook:** [`handbook/`](handbook/README.md) — a
-> step-by-step guide from installing the tools to shipping a board. If you read one
-> thing, read [`handbook/01-introduction.md`](handbook/01-introduction.md).
-
----
-
-## What is this?
-
-AXON is a **workspace and a method**, not a program you run. You open it in a code
-editor (VS Code), and an **AI assistant** (such as Claude Code) reads the
-instructions in this repository and helps you design a PCB by:
-
-- studying the client requirements and doing a feasibility study,
-- planning the Bill of Materials,
-- drawing the schematic in EasyEDA,
-- checking the schematic for errors,
-- planning and placing the components,
-- routing the board in KiCad,
-- and preparing the manufacturing files.
-
-**You stay in control.** The AI does the busywork and the checking; you approve every
-important engineering decision.
-
-## Who is it for?
-
-**Electronics engineers** — people who know PCB design, schematics, BOMs, and
-manufacturing. You do **not** need to know programming, APIs, or automation. Where a
-software idea matters, the handbook explains it in plain language (and the
-[glossary](handbook/glossary.md) is always one click away).
-
-## What problem does it solve?
-
-PCB design has a lot of careful, repetitive, error-prone work: wiring every net,
-checking every pin, placing every part, sizing every trace, running every check.
-AXON hands that work to an AI assistant that is fast, tireless, and follows a fixed
-set of engineering rules — while keeping *you*, the engineer, as the decision-maker.
-It also remembers what it learned on past boards, so every project starts smarter
-than the last.
+> 👉 **New here? Start with the [handbook](handbook/README.md)** — a step-by-step guide
+> for electronics engineers, from installing the tools to shipping a board.
 
 ---
 
-## Who does what
+## 1. What is this?
 
-| You (the engineer) decide… | The AI assistant does… |
-|---|---|
-| What the product must do (requirements) | The feasibility study and the math (density, current, cost) |
-| Which parts to use (final BOM approval) | Researching parts, availability, and datasheets |
-| The board size, shape, and connector positions | Drawing the schematic and placing the components |
-| Whether a placement is practical | Checking the schematic and the placement for errors |
-| Go-ahead to start routing | Routing the board and running the design-rule checks |
-| **Placing the manufacturing order** (always you) | Preparing the gerbers, BOM, and assembly files |
+Tracewright is a **workspace and a method**, not a program you run. You open it in a code
+editor (VS Code), and an **AI assistant** reads the instructions in this repository and
+helps you design a PCB — doing the busywork and the checking, and stopping to ask you
+whenever a real engineering decision comes up.
 
-**The simple rule:** the AI does anything that can be re-done if it's wrong
-(analysis, drawing, checking). You approve anything that changes the live design or
-that can't be undone — and *you* always place the fab order.
+**Why it was created:** PCB design is full of careful, repetitive, mistake-prone work —
+every net wired, every pin checked, every part placed, every trace sized, every rule
+verified. That work is perfect for a tireless assistant and wasteful for a skilled
+engineer. Tracewright hands it to an AI that follows a fixed set of engineering rules,
+and keeps *you* as the decision-maker.
 
-## Which tool does what
+**What it solves:** drift between the spec and the board, layouts built on a wrong
+schematic, boards lost because nobody saved them, and hours spent on mechanical work an
+assistant could do — while never taking a safety, sizing, or ordering decision out of
+your hands.
 
-- **EasyEDA** — where the **schematic** is drawn and the **components are placed**.
-- **KiCad** — where the board is **routed** and the final **design checks** run.
-- The AI moves the design from EasyEDA to KiCad for you and keeps them in sync.
+**Who it's for:** electronics engineers who know PCB design, schematics, BOMs, and
+manufacturing — and who do **not** need to know programming, APIs, or automation.
 
-(Why the split? KiCad can be automated for routing and rule-checking in ways EasyEDA
-cannot. You don't need to worry about this — the AI handles the handoff.)
+## 2. Vision
 
----
+**AI assists the engineer; it does not replace them.** The goal is to automate the
+repetitive engineering work while keeping human judgment central. The AI is a fast,
+disciplined junior engineer who has read every datasheet and never tires of checking
+nets — but who always defers to you on the decisions that carry real risk. It never
+sizes a power path below its limit, never signs off a design-rule check, and **never
+orders a board.** As you build more boards, it gets smarter: every lesson learned on one
+project is carried into the next.
 
-## The workflow, at a glance
+## 3. High-level workflow
+
+Twelve phases, each with a checkpoint. You never start a phase until the previous one is
+confirmed correct.
 
 ```
-   Client requirement
-        ↓   Feasibility study
-   BOM planning
-        ↓   Component selection
-   EasyEDA project creation
-        ↓   Autonomous schematic generation
-   Schematic review
-        ↓
-   Placement planning  →  Placement knowledge graph  →  Automated placement
-        ↓   Export to KiCad
-   AI routing
-        ↓   Design verification
-   Manufacturing package
+  Client requirement → Feasibility study → BOM planning → EasyEDA project →
+  AI-assisted schematic generation → Engineering review → Placement planning →
+  Automated component placement → KiCad export → AI-assisted routing →
+  Verification → Manufacturing
 ```
 
-Each step has a clear checkpoint. You don't move to the next step until the current
-one is confirmed correct. Full walkthrough:
-[`handbook/`](handbook/README.md) and [`DESIGN_WORKFLOW.md`](DESIGN_WORKFLOW.md).
+1. **Client requirement** — capture what the product must do.
+2. **Feasibility study** — the AI checks technical feasibility, cost, power budget,
+   board size, and layer count with real math before any design starts.
+3. **BOM planning** — build and validate the parts list (availability, cost, package,
+   electrical fit, second sources).
+4. **EasyEDA project** — create the project, sheets, and stack-up.
+5. **AI-assisted schematic generation** — the AI draws the schematic block by block,
+   wiring every net; you review and run Annotate.
+6. **Engineering review** — the schematic is audited (shorts, floating pins, ERC, net
+   list match). Nothing proceeds until it's clean.
+7. **Placement planning** — you define board size, shape, connectors, keep-outs, and
+   mounting; the AI builds a placement knowledge graph and a visual plan for approval.
+8. **Automated component placement** — the AI places all parts and checks real spacing;
+   you approve the layout.
+9. **KiCad export** — the placed board moves to KiCad (which is the routing engine) and
+   the import is verified faithful.
+10. **AI-assisted routing** — the AI routes to IPC standards (widths, current, diff
+    pairs, return paths, EMI) and iterates until the design-rule check is clean.
+11. **Verification** — a full review: DRC, ERC, manufacturing, silkscreen, assembly,
+    mechanical, BOM.
+12. **Manufacturing** — the AI produces the factory files; **you place the order.**
 
----
+Full detail per phase: [`workflow/`](workflow/) and the [handbook](handbook/README.md).
 
-## What you need
+## 4. Repository overview
 
-| Thing | What it's for | How to get it |
-|---|---|---|
-| **VS Code** | the workspace you open this repo in | [handbook step 2](handbook/02-installing-tools.md) |
-| **An AI assistant** (Claude Code, Codex, OpenCode, …) | the assistant that reads this repo and helps you | [handbook step 2](handbook/02-installing-tools.md) |
-| **EasyEDA Pro** (free account) | schematic + placement | [handbook step 2](handbook/02-installing-tools.md) |
-| **KiCad** (free) | routing + verification | [handbook step 2](handbook/02-installing-tools.md) |
-| **Git** (installed once, mostly invisible) | saves and publishes your work | [handbook step 2](handbook/02-installing-tools.md) |
-
-**Skills required:** PCB and electronics knowledge. **No programming required.**
-
----
-
-## Where things live (the repository map)
-
-| Folder | In plain terms |
+| Folder | What it's for |
 |---|---|
-| [`handbook/`](handbook/) | **Start here.** The step-by-step guide for engineers. |
-| [`workflow/`](workflow/) | The 12 design steps, each explained with its checkpoint. |
-| [`agents/`](agents/) | The "job descriptions" for the AI helpers (one per step). |
+| [`handbook/`](handbook/) | **Start here** — the step-by-step guide for engineers. |
+| [`workflow/`](workflow/) | The 12 design phases, each with its checkpoint. |
+| [`agents/`](agents/) | The "job descriptions" for the AI helpers (one per phase). |
 | [`automation/`](automation/) | The tools the AI uses to drive EasyEDA and KiCad. *You don't touch these.* |
-| [`knowledge/`](knowledge/) | The engineering rules and lessons the AI follows. |
+| [`knowledge/`](knowledge/) | The engineering rules and lessons the AI follows (IPC widths, design standards, learnings). |
 | [`templates/`](templates/) | Blank forms you fill in for a new board (parts list, net list, rules). |
 | [`projects/`](projects/) | **Your boards live here** — one folder per project, with all its files and outputs. |
+| [`tools/`](tools/) | Reliability helpers: the environment check (`doctor`), logging, and self-healing recovery. |
+| [`reliability/`](reliability/) | How the workspace detects and recovers from problems + the [troubleshooting guide](reliability/TROUBLESHOOTING.md). |
 | [`docs/`](docs/) | Deep reference material. *Optional — for later, or for contributors.* |
-| [`reliability/`](reliability/) | How the workspace detects & recovers from problems, plus the [troubleshooting guide](reliability/TROUBLESHOOTING.md). |
-| Root files (`CLAUDE.md`, `AGENTS.md`) | Instruction sheets the **AI** reads. You don't need to. |
+
+Why the structure: the **method** (`workflow/`), the **workers** (`agents/`), the
+**tools** (`automation/`, `tools/`), and the **knowledge** (`knowledge/`) are shared and
+reused for every board; only the board itself lives in `projects/`. Full explanation:
+[`ARCHITECTURE.md`](ARCHITECTURE.md).
+
+## 5. Supported AI tools
+
+Tracewright is **AI-model-agnostic.** It works with any AI coding assistant that can read
+Markdown instructions and run tools inside VS Code:
+
+- **Claude Code** (Anthropic) — recommended
+- **OpenAI Codex**
+- **OpenCode**
+- **Cursor**
+- **Gemini CLI**
+- …and future compatible AI coding agents.
+
+The framework does not depend on a single AI provider. The instructions live in plain
+Markdown (`CLAUDE.md`, `AGENTS.md`, `workflow/`), which any capable agent can follow.
+
+## 6. Software requirements
+
+| Tool | For | Required |
+|---|---|---|
+| **VS Code** | the workspace you open this in | yes |
+| **An AI assistant** (any from §5) | the assistant that helps you | yes |
+| **EasyEDA Pro** (free) | schematic + placement | yes (from phase 3) |
+| **KiCad** (free) | routing + verification | yes (from phase 10) |
+| **Git** | saves & publishes your work | yes |
+| **Chrome** | so the AI can read your live EasyEDA board | yes (from phase 3) |
+| **Python 3.9+** | runs the reliability helpers | yes |
+| **Node.js 18+** | some automation scripts | when automation runs |
+
+**Skills required:** electronics and PCB knowledge. **No programming required.**
+
+## 7. Getting started
+
+1. **Install the software** — [`handbook/02`](handbook/02-installing-tools.md).
+2. **Clone this repository** and open the folder in VS Code
+   ([`handbook/03`](handbook/03-vscode-and-ai.md)).
+3. **Check your environment:** run `python3 tools/doctor.py` — it lists each tool with
+   ✅ / ⚠️ / ❌ and tells you how to fix anything missing.
+4. **Create your first project** — [`handbook/04`](handbook/04-your-first-project.md):
+   ```
+   cp -r projects/_template projects/my-board
+   ```
+   Then tell your AI assistant: *"follow the workflow, start phase 1 for
+   projects/my-board — it's a [describe your product]."*
+5. **Work the phases** — generate the schematic, review it, place, route, verify. The AI
+   runs the repetitive work; you approve the checkpoints.
+
+That's it. From here you talk to the AI in plain English and it walks you through the
+rest.
+
+## 8. Roadmap
+
+- **✅ Built now:** the 12-phase workflow, the AI agent roster, EasyEDA + KiCad
+  automation, the engineering knowledge base, and a complete self-healing reliability
+  layer (environment check, logging, auto-diagnosis, retry, recovery, resume,
+  cross-platform tools).
+- **🚧 In progress:** live-session validation of the recovery strategies; macOS/Windows
+  validation; a public end-to-end example project.
+- **🔭 Planned:** a branded CLI, a source-of-truth linter, deeper KiCad routing
+  automation, more AI-agent adapters.
+- **🧪 Research:** one-command "board recompile" from the knowledge layer; a
+  cross-project knowledge graph; more EDA backends.
+
+Full detail: [`ROADMAP.md`](ROADMAP.md).
+
+## 9. Notes
+
+**Please read these — they set honest expectations.**
+
+- **Human review is required.** The AI stops for your approval before drawing copper,
+  and always leaves safety-critical calls (power sizing, DRC sign-off) and the **fab
+  order** to you.
+- **Known EasyEDA limitations:** script-drawn schematics are electrically correct but not
+  perfectly aligned (a cosmetic limitation; the audit guarantees the wiring). Copper
+  pours and routing can't be scripted in EasyEDA — which is why routing happens in KiCad.
+- **Browser automation:** the AI reads your *live* EasyEDA board through Chrome; keep one
+  EasyEDA window open and signed in. Details:
+  [`reliability/TROUBLESHOOTING.md`](reliability/TROUBLESHOOTING.md).
+- **Supported platforms:** developed and validated on **Linux**; cross-platform tooling
+  for **macOS/Windows** is built and unit-tested but still needs real-world validation on
+  those hosts.
+- **Engineering assumptions:** DRC ground truth is always the board's own tool with its
+  own ruleset (never a bare board file); high-current paths use copper planes, not
+  traces; grounds return cleanly. These are enforced in
+  [`knowledge/design-standards.md`](knowledge/design-standards.md).
+- **Recommended workflow:** one phase at a time, review each checkpoint, commit your work
+  as you go. The AI's reliability layer auto-recovers common failures and explains the
+  rest in plain English.
+- **If something breaks:** just tell the AI *"something went wrong — read the log and fix
+  it."* See [`reliability/TROUBLESHOOTING.md`](reliability/TROUBLESHOOTING.md).
+
+## 10. Contributing
+
+Contributions are welcome — from engineers and AI agents alike. In short: improve a
+**phase** (`workflow/`), a **tool** (`automation/`, `tools/`), or the **knowledge**
+(`knowledge/`); keep board-specific work inside `projects/`; every claim should trace to
+a real artifact; prefer updating over duplicating. Full guide:
+[`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ---
 
-## Where to begin
+## Provenance & license
 
-1. Read [`handbook/01-introduction.md`](handbook/01-introduction.md) (10 minutes).
-2. Install the tools: [`handbook/02-installing-tools.md`](handbook/02-installing-tools.md).
-3. Create your first project: [`handbook/04-your-first-project.md`](handbook/04-your-first-project.md).
+Tracewright was extracted from a real ESP32 robotics board designed with EasyEDA Pro +
+KiCad and an AI assistant, **including the honest record of what went wrong** — see
+[`docs/13_LESSONS_LEARNED.md`](docs/13_LESSONS_LEARNED.md) and
+[`knowledge/learning-db.md`](knowledge/learning-db.md). You inherit the solutions without
+paying the tuition.
 
-Then just talk to your AI assistant in plain English. It will walk you through the
-rest.
-
-## License
-
-[MIT](LICENSE) — free to use, adapt, and share.
+Naming, identity, and vision: [`BRANDING.md`](BRANDING.md).
+License: [MIT](LICENSE).

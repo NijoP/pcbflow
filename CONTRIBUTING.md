@@ -1,6 +1,6 @@
-# Contributing to AXON
+# Contributing to Tracewright
 
-AXON is used by **both humans and AI agents**, and it's designed to get better
+Tracewright is used by **both humans and AI agents**, and it's designed to get better
 with every board that runs through it. This guide covers both audiences.
 
 ---

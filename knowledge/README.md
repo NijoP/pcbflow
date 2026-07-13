@@ -1,6 +1,6 @@
 # knowledge/ — The Engineering Brain
 
-The part of AXON that **compounds**. Everything here carries *across* projects: a
+The part of Tracewright that **compounds**. Everything here carries *across* projects: a
 lesson learned on board B is available to board C before it makes B's mistake.
 
 ## What lives here

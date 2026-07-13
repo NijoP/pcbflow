@@ -1,6 +1,6 @@
 # 00 · Philosophy & First Principles
 
-This is the *why* behind every structural choice in AXON. If you understand this
+This is the *why* behind every structural choice in Tracewright. If you understand this
 page, the rest of the framework is obvious. If you skip it, you will eventually
 re-derive it the expensive way — the origin project did, repeatedly.
 
@@ -150,4 +150,4 @@ All eight principles are the same instinct applied to different surfaces:
 **separate the durable thing from the disposable thing, and gate the transition
 between them with a cheap, honest check.** Knowledge vs geometry. Source vs build.
 Reality vs model. Replayable vs irreversible. Verdict vs vibe. That instinct is
-AXON.
+Tracewright.

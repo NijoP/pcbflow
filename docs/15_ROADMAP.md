@@ -1,6 +1,6 @@
 # 15 · Roadmap
 
-Where AXON goes next, ordered by leverage. Each item names the gap it closes and the
+Where Tracewright goes next, ordered by leverage. Each item names the gap it closes and the
 smallest useful version.
 
 ---
@@ -65,7 +65,7 @@ regenerable") literally executable, and turning a lost board into a `make` away.
 
 **RM11 · Cross-project knowledge graph.**
 The KG in [`03`](03_KNOWLEDGE_GRAPH.md) is currently one project's distillation. As
-more boards run through AXON, promote board-specific instances into a shared,
+more boards run through Tracewright, promote board-specific instances into a shared,
 queryable engineering knowledge graph — the world model behind the framework.
 
 ---
