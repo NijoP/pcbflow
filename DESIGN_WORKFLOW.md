@@ -1,4 +1,4 @@
-# The AutoPCB Design Method — 12 Phases, Step by Step
+# The PCB Flow Design Method — 12 Phases, Step by Step
 
 > **Want a gentler, hands-on walkthrough?** Use the
 > **[handbook](handbook/README.md)** instead — it teaches the same 12 steps with
@@ -153,7 +153,7 @@ signs the DFM report and **places the fab order** — the one thing the AI never
 
 ## What makes this different from a traditional EE flow
 
-| Traditional | AutoPCB |
+| Traditional | PCB Flow |
 |---|---|
 | The schematic *is* the design | Build sheet + net dictionary + rules are the design; geometry is generated |
 | Progress = "I drew more" | Progress = a dated PASS/CONDITIONAL/FAIL verdict per phase |

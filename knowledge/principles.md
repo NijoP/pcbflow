@@ -1,6 +1,6 @@
 # Principles — The Source of Every Design Choice
 
-The eight first principles AutoPCB is built on. Full essay:
+The eight first principles PCB Flow is built on. Full essay:
 [`../docs/00_PHILOSOPHY.md`](../docs/00_PHILOSOPHY.md).
 
 1. **Knowledge is the source; geometry is the build artifact.** Version and protect

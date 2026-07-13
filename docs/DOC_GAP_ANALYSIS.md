@@ -17,7 +17,7 @@ compared it to the then-current `README.md`.
 
 | # | Gap | Severity | Fixed by |
 |---|---|---|---|
-| G1 | **Branding wrong** — docs said "AXON" (unsuitable codename); repo named "easyeda-plugin" (it is neither an EasyEDA plugin nor well-named) | High | [`../BRANDING.md`](../BRANDING.md) + rebrand to **AutoPCB** |
+| G1 | **Branding wrong** — docs said "AXON" (unsuitable codename); repo named "easyeda-plugin" (it is neither an EasyEDA plugin nor well-named) | High | [`../BRANDING.md`](../BRANDING.md) + rebrand to **PCB Flow** |
 | G2 | **The reliability/self-healing system was undocumented in the README** — `tools/` (doctor, structured logging, auto-diagnosis, retry, recovery, resume) and `reliability/` existed but weren't surfaced | High | README §Notes + §Roadmap; `tools/README.md` |
 | G3 | **No "Supported AI tools" section** — the framework is AI-model-agnostic but the README implied a single assistant | High | README §5 (Claude Code, Codex, OpenCode, Cursor, Gemini CLI, …) |
 | G4 | **No Vision section** — the "AI assists, doesn't replace" thesis wasn't stated at the top level | Medium | README §2 + `BRANDING.md` |
@@ -38,5 +38,5 @@ compared it to the then-current `README.md`.
 ## Outcome
 
 The README was rewritten from scratch (engineer-first, 10 sections), the project was
-rebranded to **AutoPCB**, and a product [`ROADMAP.md`](../ROADMAP.md) was added. The
+rebranded to **PCB Flow**, and a product [`ROADMAP.md`](../ROADMAP.md) was added. The
 deep reference docs remain accurate and were rebranded in place.

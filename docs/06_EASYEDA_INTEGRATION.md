@@ -1,6 +1,6 @@
 # 06 · EDA-Tool Integration (EasyEDA Pro reference)
 
-AutoPCB treats the EDA tool as a **compiler backend**: the generation layer emits
+PCB Flow treats the EDA tool as a **compiler backend**: the generation layer emits
 instructions, the tool turns them into geometry. This file documents the two
 channels for driving EasyEDA Pro, the API contracts that work, and the hard limits
 that don't — generalizable to any scriptable EDA tool.

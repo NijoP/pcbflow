@@ -2,9 +2,9 @@
 
 **For:** electronics engineers · **Software knowledge needed:** none.
 
-## What AutoPCB is
+## What PCB Flow is
 
-AutoPCB is a **workspace** you open in a code editor, plus an **AI assistant** that
+PCB Flow is a **workspace** you open in a code editor, plus an **AI assistant** that
 helps you design a PCB. Think of the AI as a very fast junior engineer who has read
 every datasheet and never gets tired of checking nets — but who always asks you
 before making a real decision.
@@ -12,7 +12,7 @@ before making a real decision.
 You don't run a program or write code. You **talk to the AI in plain English**, and
 it drives the design tools (EasyEDA and KiCad) for you.
 
-## The one idea that makes AutoPCB work
+## The one idea that makes PCB Flow work
 
 A PCB project has two kinds of thing:
 
@@ -21,7 +21,7 @@ A PCB project has two kinds of thing:
 - **Geometry** — the schematic drawing, the placed components, the routed copper.
   This is *produced* from the knowledge, and can be produced again if needed.
 
-AutoPCB keeps the **knowledge** safe and organized, and lets the AI **generate the
+PCB Flow keeps the **knowledge** safe and organized, and lets the AI **generate the
 geometry** from it. If a drawing is ever lost, it can be regenerated. Your thinking
 is what's protected.
 
@@ -71,7 +71,7 @@ That loop repeats from requirements to manufacturing.
 
 ## Checklist before moving on
 
-- [ ] I understand AutoPCB is a workspace + an AI assistant, not a program I run.
+- [ ] I understand PCB Flow is a workspace + an AI assistant, not a program I run.
 - [ ] I understand the AI does the busywork and I make the decisions.
 - [ ] I understand EasyEDA = schematic + placement, KiCad = routing + checks.
 

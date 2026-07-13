@@ -21,7 +21,7 @@ roughly in order of impact for a repo that doesn't have many stars yet:
 
 A poetic brand name (e.g. "Tracewright") scores 0 on all four for someone searching
 "autonomous pcb". A keyword-forward name + rich description + full topics scores on all
-four. **That is why the name is `AutoPCB`, not a coined word.**
+four. **That is why the name is `PCB Flow`, not a coined word.**
 
 > Reality check: no repo ranks #1 for the bare term *pcb* (KiCad, etc. dominate with
 > tens of thousands of stars). You win the **specific, less-contested** queries —
@@ -32,13 +32,13 @@ four. **That is why the name is `AutoPCB`, not a coined word.**
 
 ## Name proposals (scored for search + stars)
 
-### 1. AutoPCB  ⭐ recommended
-- **Meaning:** **Auto**(nomous / automation) + **PCB** — literally what it is.
-- **Search value:** contains the top keyword *pcb* and the differentiator *auto*; ranks
-  for "auto pcb", "autopcb", and (via description/topics) "autonomous pcb".
+### 1. PCB Flow  ⭐ recommended (chosen)
+- **Meaning:** **PCB** + **Flow** — the PCB design *flow* (workflow), automated.
+- **Search value:** contains the top keyword *pcb* plus *flow* (workflow); ranks for
+  "pcb flow", "pcbflow", "pcb workflow", and (via description/topics) "autonomous pcb".
 - **Stars value:** short, memorable, pronounceable, easy to share and say aloud.
 - **Advantages:** keyword-bearing **and** brandable — the rare combination; startup-able.
-- **Disadvantages:** somewhat generic; verify `autopcb` isn't already taken on GitHub.
+- **Disadvantages:** somewhat generic; verify `pcbflow` isn't already taken on GitHub.
 
 ### 2. PCB-Copilot
 - **Meaning:** *pcb* + *copilot* (the now-standard word for an AI assistant).
@@ -63,16 +63,16 @@ four. **That is why the name is `AutoPCB`, not a coined word.**
 
 ---
 
-## Recommendation: **AutoPCB**
+## Recommendation: **PCB Flow**
 
 It is the only option that is **both** keyword-bearing (ranks for pcb/auto/autonomous)
 **and** brandable enough to earn word-of-mouth stars. `PCB-Copilot` is the strongest
 alternative if you want to ride the "copilot" trend; `autonomous-pcb` if you want the
 purest exact-match ranking for that one phrase.
 
-**Rename the GitHub repo** `easyeda-plugin` → **`autopcb`** (Settings → General →
-Repository name; owner-only). *Verify `autopcb` is free on GitHub first; if taken, use
-`autopcb-ai` or `ai-autopcb`.*
+**Rename the GitHub repo** `easyeda-plugin` → **`pcbflow`** (Settings → General →
+Repository name; owner-only). *Verify `pcbflow` is free on GitHub first; if taken, use
+`pcbflow-ai` or `ai-pcbflow`.*
 
 ---
 
@@ -98,12 +98,12 @@ electronic-design-automation  kicad  easyeda  schematic  routing  automation  em
 ```bash
 # description
 curl -X PATCH -H "Authorization: Bearer <TOKEN>" \
-  https://api.github.com/repos/<owner>/autopcb \
+  https://api.github.com/repos/<owner>/pcbflow \
   -d '{"description":"Autonomous, AI-assisted PCB design workflow — requirements to manufacturing (EasyEDA + KiCad)."}'
 # topics
 curl -X PUT -H "Authorization: Bearer <TOKEN>" \
   -H "Accept: application/vnd.github+json" \
-  https://api.github.com/repos/<owner>/autopcb/topics \
+  https://api.github.com/repos/<owner>/pcbflow/topics \
   -d '{"names":["pcb","pcb-design","pcb-layout","pcb-automation","autonomous","ai","llm","ai-agents","hardware","hardware-design","electronics","eda","kicad","easyeda","schematic","routing","automation","embedded"]}'
 ```
 
@@ -145,8 +145,8 @@ KiCad today), AI-model-agnostic, honest about limits.
 
 ## Rename follow-up checklist
 
-Docs are rebranded to **AutoPCB**. Remaining optional mechanical steps:
-- [ ] Rename the GitHub repo `easyeda-plugin` → `autopcb` (owner-only) + set the
+Docs are rebranded to **PCB Flow**. Remaining optional mechanical steps:
+- [ ] Rename the GitHub repo `easyeda-plugin` → `pcbflow` (owner-only) + set the
       description & topics above.
 - [ ] Rename internal module `tools/axon_log.py` → `tools/runlog.py` (+ imports in
       `test_axon_log.py`, `test_heal.py`).

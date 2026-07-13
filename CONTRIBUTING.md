@@ -1,6 +1,6 @@
-# Contributing to AutoPCB
+# Contributing to PCB Flow
 
-AutoPCB is used by **both humans and AI agents**, and it's designed to get better
+PCB Flow is used by **both humans and AI agents**, and it's designed to get better
 with every board that runs through it. This guide covers both audiences.
 
 ---

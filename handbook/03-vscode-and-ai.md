@@ -3,19 +3,19 @@
 **For:** electronics engineers · **Software knowledge needed:** a little, explained here.
 
 This page shows how to open the workspace and how to work with the AI. This is the
-core skill in AutoPCB — everything else is engineering you already know.
+core skill in PCB Flow — everything else is engineering you already know.
 
 ## Open the workspace
 
-1. Get a copy of AutoPCB on your computer (the AI can do this for you, or use VS Code's
+1. Get a copy of PCB Flow on your computer (the AI can do this for you, or use VS Code's
    *Clone Repository* with the repository address).
-2. In VS Code: **File → Open Folder →** choose the AutoPCB folder.
+2. In VS Code: **File → Open Folder →** choose the PCB Flow folder.
 3. Open the AI assistant panel (Claude Code / Codex / OpenCode — however your
    assistant opens; usually a side panel or a command).
 
 That's it. The assistant automatically reads the instruction files in the repo
 (`CLAUDE.md`, `AGENTS.md`) and the step files in `workflow/`, so it already knows the
-AutoPCB method.
+PCB Flow method.
 
 ## How the AI actually works (in plain terms)
 
@@ -75,7 +75,7 @@ starting point, tell the AI *"start a new project based on projects/<old-board>.
 
 ## Checklist
 
-- [ ] I opened the AutoPCB folder in VS Code.
+- [ ] I opened the PCB Flow folder in VS Code.
 - [ ] My AI assistant is open and responding.
 - [ ] I know how to give a task and how to approve a checkpoint.
 - [ ] I know how to resume: re-open the folder and say "continue."

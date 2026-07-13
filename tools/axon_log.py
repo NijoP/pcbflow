@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-axon_log — structured logging for AutoPCB automation.
+axon_log — structured logging for PCB Flow automation.
 
 Implements the two things Phase 1 of the reliability roadmap needs:
 

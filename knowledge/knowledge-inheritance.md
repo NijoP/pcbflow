@@ -1,6 +1,6 @@
 # Knowledge Inheritance — How Future Projects Start Ahead
 
-The long-term payoff of AutoPCB: **every project makes the framework smarter, and every
+The long-term payoff of PCB Flow: **every project makes the framework smarter, and every
 new project inherits everything learned before it.** This is deliberate mechanism,
 not aspiration.
 

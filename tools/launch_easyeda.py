@@ -45,7 +45,18 @@ def launch(port=9222, url=EDITOR_URL, system=None, home=None, dry_run=False, run
     dst = Path(pl["dst"])
     if dst.exists():
         shutil.rmtree(dst, ignore_errors=True)
-    shutil.copytree(pl["src"], dst, ignore=_IGNORE, dirs_exist_ok=True)
+    try:
+        shutil.copytree(pl["src"], dst, ignore=_IGNORE, dirs_exist_ok=True)
+    except shutil.Error:
+        # Windows locks profile files while Chrome is open; copytree copies the rest
+        # and raises at the end listing what it skipped. Warn and continue.
+        print("note: some profile files were locked and skipped — for a complete "
+              "clone, CLOSE all Chrome windows before running this.")
+    except Exception as e:
+        print(f"could not clone the Chrome profile: {e}\n"
+              "Close all Chrome windows and try again (Windows locks the profile "
+              "while Chrome is open).")
+        return 2
     for lk in pl["locks"]:
         try:
             os.remove(dst / lk)

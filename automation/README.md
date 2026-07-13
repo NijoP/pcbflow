@@ -12,7 +12,7 @@ per project. Improve a tool once and every board benefits.
 
 ## The backend split — why it matters
 
-The single most important tooling decision in AutoPCB: **placement happens in EasyEDA,
+The single most important tooling decision in PCB Flow: **placement happens in EasyEDA,
 routing happens in KiCad.**
 
 - EasyEDA's Standalone-Script API can create/place/wire components and set

@@ -126,7 +126,7 @@ the source docs described. A recovery swarm reconstructed true state into a pinn
 
 The lesson is not "someone was sloppy." It is **structural**: a ledger that
 references volatile artifacts *will* drift, because artifacts change faster than
-prose gets updated. AutoPCB's fix (decision-based ledger + recovery-baseline pattern +
+prose gets updated. PCB Flow's fix (decision-based ledger + recovery-baseline pattern +
 commit-immediately) removes the class of failure, not the instance.
 
 ---

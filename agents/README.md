@@ -1,6 +1,6 @@
 # agents/ — The AI Worker Roles
 
-AutoPCB is driven by a team of AI agents, one per phase, coordinated by an
+PCB Flow is driven by a team of AI agents, one per phase, coordinated by an
 orchestrator. Each file here is an **agent definition** — a role an AI is
 instantiated into. They are stable; the board changes, the roles don't.
 

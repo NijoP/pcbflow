@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-axon doctor — preflight environment check for the AutoPCB workspace.
+axon doctor — preflight environment check for the PCB Flow workspace.
 
-Run this before any design work. It verifies the tools, the OS, and the AutoPCB
+Run this before any design work. It verifies the tools, the OS, and the PCB Flow
 config, explains any problem in plain English, and tells you exactly how to fix it.
 Pure Python 3 standard library — nothing to install.
 
@@ -52,8 +52,8 @@ def check_os():
         return mk("Operating system", True, f"{s} (supported)", "", None)
     if s == "Windows":
         return mk("Operating system", True,
-                  "Windows (automation is Linux/macOS-first; some steps are limited)",
-                  "See reliability/DEPENDENCY_VALIDATION.md (OS matrix)", None, warn=True)
+                  "Windows (supported — use 'python'/'py' and the .py tools)",
+                  "See handbook/windows-setup.md", None, warn=True)
     return mk("Operating system", True, s, "", None)
 
 
@@ -127,8 +127,8 @@ def check_vscode():
 
 def check_ai_config():
     ok = (REPO_ROOT / "CLAUDE.md").exists() and (REPO_ROOT / "AGENTS.md").exists()
-    return mk("AutoPCB config (CLAUDE.md / AGENTS.md)", ok, "present" if ok else "missing",
-              "Open the AutoPCB folder in VS Code (or re-clone the repository)", 0)
+    return mk("PCB Flow config (CLAUDE.md / AGENTS.md)", ok, "present" if ok else "missing",
+              "Open the PCB Flow folder in VS Code (or re-clone the repository)", 0)
 
 
 def check_easyeda():
@@ -158,7 +158,7 @@ def effective(chk, target_phase):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="AutoPCB environment preflight check")
+    ap = argparse.ArgumentParser(description="PCB Flow environment preflight check")
     ap.add_argument("--phase", type=int, default=1, help="check readiness up to this workflow phase (1-12)")
     ap.add_argument("--all", action="store_true", help="check the whole pipeline (implies --phase 12)")
     ap.add_argument("--json", action="store_true", help="machine-readable output")
@@ -181,7 +181,7 @@ def main():
 
     fails = sum(1 for _, s in results if s == FAIL)
     warns = sum(1 for _, s in results if s == WARN)
-    print(f"AutoPCB environment check  (readiness for phase {target}) "
+    print(f"PCB Flow environment check  (readiness for phase {target}) "
           + "─" * 20)
     for chk, s in results:
         print(f"  {sym[s]} {chk['name']:<34} {chk['detail']}")

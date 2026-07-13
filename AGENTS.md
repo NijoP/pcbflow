@@ -1,6 +1,6 @@
 # AGENTS.md — How AI Agents Use This Repo
 
-AutoPCB is driven by a team of AI agents, one per phase, coordinated by an orchestrator.
+PCB Flow is driven by a team of AI agents, one per phase, coordinated by an orchestrator.
 The **full roster and per-agent definitions live in [`agents/`](agents/)** — this
 file is the entry point.
 

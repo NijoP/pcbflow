@@ -1,6 +1,6 @@
 # Self-Healing Architecture
 
-The design for making AutoPCB recover from failures on its own. Four parts: a **logging
+The design for making PCB Flow recover from failures on its own. Four parts: a **logging
 schema**, a **failure→recovery matrix**, **retry rules**, and **autonomous resume** —
 plus the **human-friendly error** layer that sits on top so an engineer always
 understands what happened.

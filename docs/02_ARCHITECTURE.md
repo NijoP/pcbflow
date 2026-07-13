@@ -1,6 +1,6 @@
 # 02 · System Architecture
 
-AutoPCB is a five-layer architecture. Data flows **down** (knowledge compiles into
+PCB Flow is a five-layer architecture. Data flows **down** (knowledge compiles into
 geometry) and verdicts flow **up** (reality gates what's allowed to proceed).
 Each layer has one job and a clean contract with its neighbours.
 

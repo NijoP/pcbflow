@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Cross-platform helpers so AutoPCB automation isn't Linux-only (roadmap Phase 4).
+Cross-platform helpers so PCB Flow automation isn't Linux-only (roadmap Phase 4).
 
 Locates Chrome, the Chrome profile, and lock files per OS, and holds the minimum
 tool versions. Pure Python 3 standard library. All functions accept an injected

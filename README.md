@@ -1,4 +1,4 @@
-# AutoPCB — Autonomous AI-Driven PCB Design (EasyEDA → KiCad)
+# PCB Flow — Autonomous AI-Driven PCB Design (EasyEDA → KiCad)
 
 **Autonomous AI PCB design workflow — take a hardware project from requirements to
 manufacturing-ready files, with the engineer in the loop.**
@@ -7,7 +7,7 @@ manufacturing-ready files, with the engineer in the loop.**
 > `hardware-design` · `electronics` · `eda` · `kicad` · `easyeda` · `schematic` ·
 > `routing` · `pcb-automation` · `ai-agents`
 
-AutoPCB is an AI-assisted electronics engineering workspace for **automated PCB design**.
+PCB Flow is an AI-assisted electronics engineering workspace for **automated PCB design**.
 You bring the PCB and electronics knowledge; an AI assistant does the repetitive,
 error-prone work — AI-driven **schematic generation, component placement, and routing**,
 plus every design check — while **you make every engineering decision that matters.** It
@@ -21,7 +21,7 @@ software.
 
 ## 1. What is this?
 
-AutoPCB is a **workspace and a method**, not a program you run. You open it in a code
+PCB Flow is a **workspace and a method**, not a program you run. You open it in a code
 editor (VS Code), and an **AI assistant** reads the instructions in this repository and
 helps you design a PCB — doing the busywork and the checking, and stopping to ask you
 whenever a real engineering decision comes up.
@@ -29,7 +29,7 @@ whenever a real engineering decision comes up.
 **Why it was created:** PCB design is full of careful, repetitive, mistake-prone work —
 every net wired, every pin checked, every part placed, every trace sized, every rule
 verified. That work is perfect for a tireless assistant and wasteful for a skilled
-engineer. AutoPCB hands it to an AI that follows a fixed set of engineering rules,
+engineer. PCB Flow hands it to an AI that follows a fixed set of engineering rules,
 and keeps *you* as the decision-maker.
 
 **What it solves:** drift between the spec and the board, layouts built on a wrong
@@ -108,7 +108,7 @@ reused for every board; only the board itself lives in `projects/`. Full explana
 
 ## 5. Supported AI tools
 
-AutoPCB is **AI-model-agnostic.** It works with any AI coding assistant that can read
+PCB Flow is **AI-model-agnostic.** It works with any AI coding assistant that can read
 Markdown instructions and run tools inside VS Code:
 
 - **Claude Code** (Anthropic) — recommended
@@ -135,6 +135,10 @@ Markdown (`CLAUDE.md`, `AGENTS.md`, `workflow/`), which any capable agent can fo
 | **Node.js 18+** | some automation scripts | when automation runs |
 
 **Skills required:** electronics and PCB knowledge. **No programming required.**
+
+> 🪟 **On Windows?** PCB Flow works on Windows (where most hardware engineers are). Just
+> use `python` (or `py`) instead of `python3`, and the `.py` tools instead of the `.sh`
+> scripts. Full guide: **[handbook/windows-setup.md](handbook/windows-setup.md)**.
 
 ## 7. Getting started
 
@@ -208,7 +212,7 @@ a real artifact; prefer updating over duplicating. Full guide:
 
 ## Provenance & license
 
-AutoPCB was extracted from a real ESP32 robotics board designed with EasyEDA Pro +
+PCB Flow was extracted from a real ESP32 robotics board designed with EasyEDA Pro +
 KiCad and an AI assistant, **including the honest record of what went wrong** — see
 [`docs/13_LESSONS_LEARNED.md`](docs/13_LESSONS_LEARNED.md) and
 [`knowledge/learning-db.md`](knowledge/learning-db.md). You inherit the solutions without

@@ -1,4 +1,4 @@
-# AutoPCB Handbook — Learn the Framework Step by Step
+# PCB Flow Handbook — Learn the Framework Step by Step
 
 A guided path for electronics engineers. No programming background needed. Read it
 in order the first time; after that, jump to whichever step you're on.
@@ -11,7 +11,7 @@ looks like · Common mistakes · Checklist · Next step.**
 
 | # | Page | You'll learn |
 |---|---|---|
-| 01 | [Introduction](01-introduction.md) | what AutoPCB is, and how you and the AI split the work |
+| 01 | [Introduction](01-introduction.md) | what PCB Flow is, and how you and the AI split the work |
 | 02 | [Installing the tools](02-installing-tools.md) | VS Code, an AI assistant, EasyEDA, KiCad, Git |
 | 03 | [VS Code & your AI assistant](03-vscode-and-ai.md) | opening the workspace and talking to the AI |
 | 04 | [Creating your first project](04-your-first-project.md) | starting a board and giving requirements |
@@ -22,6 +22,7 @@ looks like · Common mistakes · Checklist · Next step.**
 | 09 | [Verification](09-verification.md) | the final engineering checks |
 | 10 | [Manufacturing](10-manufacturing.md) | producing the files and ordering the board |
 | — | [Glossary](glossary.md) | every software term, explained in plain English |
+| 🪟 | [Windows setup](windows-setup.md) | using PCB Flow on Windows (`python`/`py`, the `.py` tools, close Chrome first) |
 
 ## Two ideas to hold onto
 
@@ -32,7 +33,7 @@ looks like · Common mistakes · Checklist · Next step.**
    at every stage.
 
 > Stuck on a word like *API*, *Node.js*, or *repository*? It's in the
-> [glossary](glossary.md). You rarely need these terms to use AutoPCB — but they're
+> [glossary](glossary.md). You rarely need these terms to use PCB Flow — but they're
 > there when you want them.
 
 ---

@@ -1,5 +1,5 @@
 /*
- * section_generator.template.js — AutoPCB schematic section generator (EasyEDA Pro).
+ * section_generator.template.js — PCB Flow schematic section generator (EasyEDA Pro).
  *
  * PATTERN: Engine + CONFIG (P1). Everything above the CONFIG line is board-agnostic
  * and never changes. Everything in CONFIG is data you fill from build_sheet.md.

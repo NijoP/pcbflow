@@ -14,7 +14,7 @@ project and where the AI assistant lives.
 
 ## 2. An AI assistant
 
-Pick **one** AI assistant that runs inside VS Code. Any of these work with AutoPCB —
+Pick **one** AI assistant that runs inside VS Code. Any of these work with PCB Flow —
 they all read the same instructions in this repository:
 
 | Assistant | What it is | Get it |
@@ -56,8 +56,8 @@ You rarely type Git commands — the AI does it for you — but it must be insta
 
 ## Final check — run the doctor
 
-AutoPCB includes a one-command check that confirms everything above at once. In VS
-Code's terminal, from the AutoPCB folder:
+PCB Flow includes a one-command check that confirms everything above at once. In VS
+Code's terminal, from the PCB Flow folder:
 
 ```
 python3 tools/doctor.py

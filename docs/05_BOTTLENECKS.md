@@ -1,7 +1,7 @@
 # 05 · Bottlenecks & Reusable Solutions
 
 Every pain point that cost real time or money in the origin project, paired with
-the reusable solution. If you adopt AutoPCB, you inherit the solutions without paying
+the reusable solution. If you adopt PCB Flow, you inherit the solutions without paying
 the tuition. Ordered roughly by cost.
 
 ---
