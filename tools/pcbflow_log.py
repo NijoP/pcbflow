@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-axon_log — structured logging for PCB Flow automation.
+pcbflow_log — structured logging for PCB Flow automation.
 
 Implements the two things Phase 1 of the reliability roadmap needs:
 
@@ -13,7 +13,7 @@ See reliability/SELF_HEALING.md §1 for the schema design.
 
 Use in a Python automation step:
 
-    from axon_log import PhaseLogger
+    from pcbflow_log import PhaseLogger
     log = PhaseLogger("door-sensor", "04-schematic-generation")
     result = log.run("wire block U3 (IMU)", lambda: wire_imu())
     if not result["ok"]:
@@ -21,7 +21,7 @@ Use in a Python automation step:
 
 Render a phase log for a human:
 
-    python3 tools/axon_log.py render projects/door-sensor/.logs/04-schematic-generation.jsonl
+    python3 tools/pcbflow_log.py render projects/door-sensor/.logs/04-schematic-generation.jsonl
 """
 import json, sys, traceback, datetime
 from pathlib import Path

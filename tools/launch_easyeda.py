@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-axon launch-easyeda — cross-platform EasyEDA launcher (roadmap Phase 4).
+pcbflow launch-easyeda — cross-platform EasyEDA launcher (roadmap Phase 4).
 
 Clones the logged-in Chrome profile (minus caches), clears the lock files, and
 launches Chrome with remote debugging on :9222 — on Linux, macOS, and Windows.

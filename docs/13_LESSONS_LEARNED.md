@@ -64,9 +64,9 @@ Multiple full layout iterations discarded because the *source* underneath was wr
 → Principle 2.
 
 **F4 · From-scratch dense 4-layer never converged.**
-45×35 with ~121 parts (~46% density) → 1091 DRC / 40 unrouted, autorouter timing
-out. *Root cause: density above the autoroutable threshold; the spec size was
-infeasible.* → KG-D1.
+A small outline packed to ~46% density (~120 parts) → 1091 DRC / 40 unrouted,
+autorouter timing out. *Root cause: density above the autoroutable threshold; the
+spec size was infeasible.* → KG-D1.
 
 **F5 · Blind via-per-pad → 250–815 shorts.**
 Adding a stitch via at every power pad without collision-checking. *Root cause: a
@@ -118,11 +118,11 @@ named and understood — but they must be *named*, not silently passed. → P8.
 
 ## The recovery-baseline discrepancy (a case study in F1)
 
-At one point the origin `CLAUDE.md` / `README` claimed, variously: 32×32 mm, 70×35
-mm, and 100×50/55×35 "delivered" boards — while the **live board was 40×55 mm,
-4-layer, with a different latch IC, a swapped IMU, and a different ToF part** than
-the source docs described. A recovery swarm reconstructed true state into a pinned
-"READ FIRST" baseline listing exactly which rows to distrust.
+At one point a project's origin `CLAUDE.md` / `README` claimed, variously, several
+different board sizes and "delivered" boards — while the **live board was a
+different size and layer count, with a different latch IC, a swapped IMU, and a
+different ToF part** than the source docs described. A recovery swarm reconstructed
+true state into a pinned "READ FIRST" baseline listing exactly which rows to distrust.
 
 The lesson is not "someone was sloppy." It is **structural**: a ledger that
 references volatile artifacts *will* drift, because artifacts change faster than

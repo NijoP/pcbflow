@@ -60,7 +60,7 @@ board teaches new lessons. This guide covers both audiences.
 1. **Every claim traces to a real artifact, failure, or code path.** No aspirational
    heuristics — if it wasn't earned, it isn't a lesson.
 2. **State the reusable rule, not the anecdote.** "Route thin first, pour last" — not
-   "on the Light Dome board we poured last." The instance is evidence *under* the
+   "on that one board we poured last." The instance is evidence *under* the
    rule.
 3. **Mark SPECIFIC vs GENERAL** in every template so the next person knows what to
    swap.

@@ -1,4 +1,4 @@
-# AXON project manifest — the orchestrator's source of truth for this board.
+# PCB Flow project manifest — the orchestrator's source of truth for this board.
 # References DECISIONS and STATE, never volatile artifact paths (a status must not
 # be able to lie because a file was deleted).
 

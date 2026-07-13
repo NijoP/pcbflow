@@ -74,5 +74,5 @@ back (`projects/<board>/.logs/`), so it can always reconstruct what happened.
 
 ---
 See also: [`RECOVERY_PLAYBOOKS.md`](RECOVERY_PLAYBOOKS.md) (what the AI does behind the
-scenes) · [`DEPENDENCY_VALIDATION.md`](DEPENDENCY_VALIDATION.md) (`axon doctor` — run
+scenes) · [`DEPENDENCY_VALIDATION.md`](DEPENDENCY_VALIDATION.md) (`pcbflow doctor` — run
 it if anything feels off).

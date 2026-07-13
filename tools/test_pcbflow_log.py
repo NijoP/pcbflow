@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Minimal test for axon_log — proves the {ok,err} envelope never swallows errors
-and that the JSONL schema is written correctly. Run: python3 tools/test_axon_log.py"""
+"""Minimal test for pcbflow_log — proves the {ok,err} envelope never swallows errors
+and that the JSONL schema is written correctly. Run: python3 tools/test_pcbflow_log.py"""
 import tempfile, json
 from pathlib import Path
-import axon_log
+import pcbflow_log
 
 
 def _boom():
@@ -12,7 +12,7 @@ def _boom():
 
 def test_envelope_and_schema():
     with tempfile.TemporaryDirectory() as d:
-        log = axon_log.PhaseLogger("t", "04-x", root=d)
+        log = pcbflow_log.PhaseLogger("t", "04-x", root=d)
 
         # success path: envelope carries the value, logs "ok"
         r1 = log.run("good step", lambda: 42)
@@ -36,7 +36,7 @@ def test_envelope_and_schema():
         for r in recs:                                          # every record has the schema core
             assert r["ts"] and r["project"] == "t" and r["phase"] == "04-x" and r["step"]
 
-    print("PASS — axon_log: envelope never swallows, JSONL schema correct (3/3 records).")
+    print("PASS — pcbflow_log: envelope never swallows, JSONL schema correct (3/3 records).")
 
 
 if __name__ == "__main__":

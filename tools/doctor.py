@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-axon doctor — preflight environment check for the PCB Flow workspace.
+pcbflow doctor — preflight environment check for the PCB Flow workspace.
 
 Run this before any design work. It verifies the tools, the OS, and the PCB Flow
 config, explains any problem in plain English, and tells you exactly how to fix it.

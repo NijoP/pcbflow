@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-axon recover — retry with backoff + idempotency guard, wired to the diagnoser.
+pcbflow recover — retry with backoff + idempotency guard, wired to the diagnoser.
 
 Turns transient failures (rate limits, timeouts, server hiccups) into automatic
 recoveries, while refusing to blindly re-run a non-idempotent live write. Pure

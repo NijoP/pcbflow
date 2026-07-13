@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-axon state — checkpoint (auto-commit a phase) and resume (find where we left off).
+pcbflow state — checkpoint (auto-commit a phase) and resume (find where we left off).
 
 Enforces two reliability guards from the roadmap:
   - ST-1: commit a phase's work the moment it's done, so it can never be lost.

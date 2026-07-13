@@ -9,7 +9,7 @@ smallest useful version.
 
 **RM1 · Ship the templates as runnable code.**
 The `templates/` are currently schemas + a JS engine skeleton. Turn the engine into
-an installable package (`axon-eda`) with the board-agnostic core (`pick`,
+an installable package (`pcbflow`) with the board-agnostic core (`pick`,
 `pickPassive`, `wirePins`, `pinDir`, `cdp.py`, `recon.py`) so a new board imports it
 instead of copy-pasting.
 

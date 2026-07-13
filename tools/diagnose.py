@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-axon diagnose — classify an automation failure into a known fault class.
+pcbflow diagnose — classify an automation failure into a known fault class.
 
 Maps an error message / HTTP status to a VULNERABILITY_REPORT id, explains it in
 plain English, says whether it's safe to retry, and gives the engineer-friendly

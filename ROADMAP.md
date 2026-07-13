@@ -33,7 +33,8 @@ internal reliability build plan lives in
 
 ## 🔭 Planned
 
-- A branded CLI wrapper (`tracewright doctor`, `tracewright route`, …) over the `tools/`.
+- Fold the `tools/` reliability verbs (`doctor`, `recover`, `heal`, `state`, …) into the
+  unified `pcbflow` CLI as first-class subcommands.
 - A source-of-truth linter (auto-check `build_sheet.md` ↔ `net_connection.md`).
 - Deeper KiCad-native routing automation (pours/zones/stitching scripted end-to-end).
 - More AI-agent adapters and an explicit adapter interface.

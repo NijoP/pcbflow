@@ -10,8 +10,8 @@ the tuition. Ordered roughly by cost.
 
 **Symptom:** the governance file grew to describe boards that no longer existed;
 a “PRODUCTION-READY: SHIP” row pointed at files never committed and since deleted.
-Multiple board sizes (32×32 → 70×35 → 100×50 → 55×35 → 40×55) coexisted in one
-status table as successive pivots, contradicting each other.
+Several successive board sizes from earlier pivots coexisted in one status table,
+each contradicting the others and none matching the live board.
 
 **Root cause:** status coupled to **artifact paths** instead of **decisions**.
 When artifacts vanish, the ledger asserts facts with no backing.

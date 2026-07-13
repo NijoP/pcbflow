@@ -1,6 +1,6 @@
 # Dependency Validation — The Preflight "Doctor"
 
-A design for `axon doctor`: a single check the engineer (or the AI) runs **before any
+A design for `pcbflow doctor`: a single check the engineer (or the AI) runs **before any
 work starts**, which verifies the whole environment, explains any problem in plain
 English, and refuses to start if something critical is missing. This closes every
 `ENV-*` and most `BR-*` first-run failures.
@@ -13,7 +13,7 @@ English, and refuses to start if something critical is missing. This closes ever
 ## What it does
 
 ```
-$ axon doctor
+$ pcbflow doctor
 PCB Flow environment check ───────────────────────────────
   ✅ Operating system     Linux (supported)
   ✅ Git                   2.43.0
@@ -84,7 +84,7 @@ roadmap item.
 
 ## Where it plugs in
 
-- **Manually:** the engineer runs `axon doctor` (handbook step 2 ends with it).
+- **Manually:** the engineer runs `pcbflow doctor` (handbook step 2 ends with it).
 - **Automatically:** the AI runs the relevant subset **at the start of each phase**
   (e.g. it checks KiCad only when entering Phase 10, so a beginner isn't blocked early
   by a tool they don't need yet).

@@ -17,7 +17,7 @@ layer a real, queryable model and treats geometry as a pure build target of it.*
 
 ```
 V1:  well-organized docs  →  scripts read them  →  geometry (manually verified)
-V2:  a typed BOARD MODEL   →  `axon build`       →  geometry (verified by construction)
+V2:  a typed BOARD MODEL   →  `pcbflow build`       →  geometry (verified by construction)
                 └── one source object: parts, nets, rules, constraints, decisions
 ```
 
@@ -68,7 +68,7 @@ that model, generated, never hand-edited into disagreement. The whole class of
 - **Backend-appropriate routing.** On a KiCad backend, pours/zones/stitching are
   scriptable → automate phase 8 up to the fine-pitch tail. The Tier-4 wall moves
   from "all of routing" to "just the escapes."
-- **Board recompile.** `axon build` regenerates schematic + placement + routing plan
+- **Board recompile.** `pcbflow build` regenerates schematic + placement + routing plan
   from the model. A lost board is a rebuild, not a catastrophe (directly fixes F2).
 - **DRC-by-construction.** Because the model carries the ruleset and the widths, the
   generation layer emits geometry that already respects them — DRC becomes
@@ -98,7 +98,7 @@ Four properties fall out for free:
 1. **No drift** — one source, generated views.
 2. **No lying ledger** — status is derived from verified state + git presence.
 3. **No copy-paste** — one installed engine package.
-4. **No lost boards** — `axon build` recompiles from the model.
+4. **No lost boards** — `pcbflow build` recompiles from the model.
 
 ---
 

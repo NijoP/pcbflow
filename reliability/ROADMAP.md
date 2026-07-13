@@ -10,7 +10,7 @@ in what order.
 
 | # | Weakness | Sev | Fix | Effort |
 |---|---|---|---|---|
-| 1 | No environment check before work | S2×many | `axon doctor` preflight | Med |
+| 1 | No environment check before work | S2×many | `pcbflow doctor` preflight | Med |
 | 2 | Silent failures / swallowed errors (SC-7) | S1 | `{ok,err}` envelope everywhere + structured logging | Med |
 | 3 | Phantom DRC ships bad boards (KI-6) | S1 | make `drc.sh` the only DRC path; hard-fail without ruleset | Low |
 | 4 | Uncommitted work lost (ST-1) | S1 | auto-commit each phase output; manifest checkpoint | Low |
@@ -18,7 +18,7 @@ in what order.
 | 6 | Session expiry blocks silently (EDA-1/2) | S2 | 401 detection + re-login prompt + resume | Med |
 | 7 | No clean resume after crash (ST-2/5) | S2 | manifest-driven resume | Med |
 | 8 | Linux-only automation (ENV-6) | S2 | cross-platform runner; PowerShell/mac recipes | High |
-| 9 | Missing-dep crashes mid-task (ENV-*) | S2 | folded into `axon doctor` (#1) | — |
+| 9 | Missing-dep crashes mid-task (ENV-*) | S2 | folded into `pcbflow doctor` (#1) | — |
 | 10 | Schematic misalignment (§7) | S3 | measured-bbox tidy pass (optional) | Med |
 
 ---
@@ -26,12 +26,12 @@ in what order.
 ## Phase 1 — See everything (highest value, lowest risk) · ✅ BUILT
 
 > **Implemented** in [`../tools/`](../tools/): `doctor.py` (preflight environment
-> check) + `axon_log.py` (structured `{ok,err}` logging) + a passing test. Run
+> check) + `pcbflow_log.py` (structured `{ok,err}` logging) + a passing test. Run
 > `python3 tools/doctor.py`. See [`../tools/README.md`](../tools/README.md).
 
 Build the two things that turn *invisible* failures into *handled* ones:
 
-1. **`axon doctor`** — the preflight dependency/OS/tool/EasyEDA/AI check
+1. **`pcbflow doctor`** — the preflight dependency/OS/tool/EasyEDA/AI check
    ([`DEPENDENCY_VALIDATION.md`](DEPENDENCY_VALIDATION.md)). Cross-platform (Node or
    Python). Run manually and at each phase start; hard-gate on critical failures.
 2. **Structured logging** — the `{ok,err}` envelope on every wrapped call + the JSONL
@@ -111,7 +111,7 @@ Outcome: works on Ubuntu, macOS, and Windows, not just Linux.
 - **Be honest about limits.** Where automation is Linux-only or a schematic isn't
   perfectly tidy, say so up front (the troubleshooting guide already does) — surprises
   erode trust more than known limitations do.
-- **Ship the doctor with the repo.** A new engineer's first command should be `axon
+- **Ship the doctor with the repo.** A new engineer's first command should be `pcbflow
   doctor`, and it should tell them exactly what to install before anything can fail.
 
 ---

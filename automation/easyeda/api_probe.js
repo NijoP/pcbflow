@@ -50,7 +50,7 @@
   } catch (e) { L("lib inspect failed: " + e); }
 
   // 3) Try likely library-search calls and report the result shape
-  var QUERY = "TP4056";   // any common part
+  var QUERY = "NE555";   // any common part the offline/online lib will return
   var device = null;
   var candidates = [
     ["lib_Device.search", function () { return eda.lib_Device.search(QUERY); }],

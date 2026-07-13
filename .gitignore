@@ -1,4 +1,4 @@
-# AXON is a methodology repo — knowledge, not build artifacts.
+# PCB Flow is a methodology repo — knowledge, not build artifacts.
 # Keep generated geometry out; the templates and docs are the source.
 
 # EDA / build outputs (regenerable — never the source of truth)

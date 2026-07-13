@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-axon drc — cross-platform DRC runner for KiCad (roadmap Phase 4).
+pcbflow drc — cross-platform DRC runner for KiCad (roadmap Phase 4).
 
 Ports automation/kicad/drc.sh to Python so it works on Windows/macOS/Linux, and
 keeps the KI-6 guard: it REFUSES to run on a bare board with no ruleset sibling

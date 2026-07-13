@@ -5,8 +5,8 @@ that lived scattered across 500+ docs, 40+ memory files, and 30 sessions, pulled
 into one navigable graph. Nodes are **heuristics, decisions, failures, and
 gotchas**. Edges are `→ leads to`, `⊣ blocks`, `≈ generalizes`.
 
-Each node is stated as a **reusable rule** first, with the origin-project instance
-as evidence. Use it as a checklist and as a “have we seen this before?” lookup.
+Each node is stated as a **reusable rule** first, with a worked example as evidence.
+Use it as a checklist and as a “have we seen this before?” lookup.
 
 ---
 
@@ -14,34 +14,37 @@ as evidence. Use it as a checklist and as a “have we seen this before?” look
 
 **KG-D1 · Density drives board size.**
 `density = courtyard_area / board_area × 2`. ≤25% → 2-layer comfortable; ~35% →
-tight; >45% → 4-layer or interactive finish. *Instance:* 70×35=46% (failed),
-100×50=23% (clean). → feeds KG-D2.
+tight; >45% → 4-layer or interactive finish. *Example:* a 46%-density 2-layer
+attempt failed to close; the same nets at 23% density (larger outline) routed
+clean. → feeds KG-D2.
 
 **KG-D2 · Current drives layer count, not routability.**
 If peak current on any rail exceeds a manufacturable trace's ampacity (~5 A on
 1 oz), that rail needs a **plane** → ≥4 layers. Add layers for *amps*, then
-exploit them for routing. *Instance:* ~10.5 A motor rail → In2 = solid VSYS plane.
-⊣ the mistake of adding layers hoping routing gets easier (it doesn't, on its own).
+exploit them for routing. *Example:* a ~10 A motor rail → dedicate an inner layer
+as a solid power plane. ⊣ the mistake of adding layers hoping routing gets easier
+(it doesn't, on its own).
 
 **KG-D3 · The module variant is the highest-leverage RF decision on a compact board.**
 Onboard-antenna vs external-connector variant decides whether you lose ~100 mm² to
-a keep-out. *Instance:* ESP32-C3-MINI-**1U** (IPEX, no keep-out) over -1 (PCB
-antenna). ≈ any RF module with an antenna-variant choice.
+a keep-out. *Example:* the onboard-**IPEX/u.FL** variant of a wireless module (no
+keep-out) over the **PCB-trace-antenna** variant (needs a keep-out). ≈ any RF
+module with an antenna-variant choice.
 
 **KG-D4 · A UX feature is a client call; a safety function is an engineering mandate.**
 Fuel-gauge IC vs ADC divider = client cost/UX decision. Over-discharge cutoff =
 non-negotiable. Keep the two categories separate when presenting trades.
 
 **KG-D5 · Prefer the IC that bundles a safety function over a discrete rebuild.**
-*Instance:* a discrete power-latch failed on three independent causes (a MΩ timing
+*Example:* a discrete power-latch failed on three independent causes (a MΩ timing
 node dominated by comparator bias current; an over-volted pull-up; a boot timing
 race). The single-chip latch bundles all four functions and can't repeat those
 bugs. ⊣ rebuilding safety-critical analog discretely to save a few cents.
 
 **KG-D6 · Size-vs-routability is a first-class, statable trade — not a failure.**
 “A clean working board at the larger size beats a broken board at the spec size.”
-State it as a constrained optimization up front. *Instance:* spec 45×35 never
-routed; delivered 100×50 did.
+State it as a constrained optimization up front. *Example:* the spec-size board
+never routed; a modestly larger outline did.
 
 ---
 
@@ -58,18 +61,19 @@ close above ~25% density. Relax to a via-stitched GND *pour* on both layers.
 
 **KG-L3 · Promote, don't re-route.** To go from a working 2-layer board to 4-layer
 for ampacity, *promote* the proven routing (add planes + collision-checked stitch
-vias) rather than re-routing from scratch. *Instance:* from-scratch 4-layer never
+vias) rather than re-routing from scratch. *Example:* from-scratch 4-layer never
 converged (1091 DRC); promotion gave 0 unrouted.
 
 **KG-L4 · Never a blind via per pad.** Stitching/plane-tie vias must be
-collision-checked against all copper on all layers before insertion. *Instance:* a
+collision-checked against all copper on all layers before insertion. *Example:* a
 via at every power pad → 250–815 net-to-net shorts.
 
 **KG-L5 · A dense cluster's open nets are a track problem, not a placement problem.**
 When an autorouter plateaus at a ~5–12 unrouted tail in a tight cluster, moving
 parts makes it worse (every nudge trades one open for several shorts). Rip-up and
-reroute the **obstructing tracks** instead. *Instance:* 2 agents, 0 successful
-moves; ripping Q4_G/I2C_SCL tracks closed it.
+reroute the **obstructing tracks** instead. *Example:* two placement passes made 0
+successful moves; ripping up the few obstructing tracks (a gate net, an I²C line)
+closed the tail.
 
 **KG-L6 · Autorouters plateau; budget an interactive finish tail.**
 At >~30% density on 4-layer, expect 85–95% auto-completion and a fine-pitch tail
@@ -84,7 +88,7 @@ boundary does the isolation; a slot creates a return discontinuity.
 **KG-L8 · Asymmetric-plane return paths need a cap, not a ground stitch.**
 On an `F=GND / B=VSYS` stackup, a signal that vias F↔B changes its reference
 plane. A GND stitch via does nothing (GND↔GND). The fix is a **GND↔VSYS bypass cap
-≤2–3 mm** at each transition. *Instance:* fast-SPI on B.Cu.
+≤2–3 mm** at each transition. *Example:* fast-SPI on B.Cu.
 
 **KG-L9 · Fine-pitch mask bridging is geometry, not a rule.**
 At ≤0.5 mm pad pitch compute the mask web: `web ≈ pitch − pad_width −
@@ -180,10 +184,10 @@ availability; ground prices on cross-distributor twins and mark ESTIMATE.
 ## E. Governance & process gotchas
 
 **KG-G1 · Never couple status to artifact paths.** Status references decisions.
-*Instance:* “SHIP” pointing at an uncommitted, later-deleted file.
+*Example:* “SHIP” pointing at an uncommitted, later-deleted file.
 
 **KG-G2 · Commit every manufacturing output immediately.** Uncommitted = one pivot
-from gone. *Instance:* three finished boards, two lost.
+from gone. *Example:* three finished boards, two lost.
 
 **KG-G3 · A prior-session summary is stale-by-default.** Verify against git/live
 state before acting on it.

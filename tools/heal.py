@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-axon heal — the self-healing engine.
+pcbflow heal — the self-healing engine.
 
 Runs an automation step; if it fails, it DIAGNOSES the fault, attempts the mapped
 RECOVERY, and either recovers-and-retries or ESCALATES with a plain-English
@@ -10,7 +10,7 @@ strategies. Pure Python 3 standard library.
 
 Usage in an automation step:
 
-    from axon_log import PhaseLogger
+    from pcbflow_log import PhaseLogger
     from heal import heal
     import recovery
 

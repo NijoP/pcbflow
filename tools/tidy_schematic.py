@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-axon tidy-schematic — de-collide + grid-snap schematic blocks (roadmap Phase 5).
+pcbflow tidy-schematic — de-collide + grid-snap schematic blocks (roadmap Phase 5).
 
 Addresses the known §7 limitation: script-drawn schematics are electrically correct
 but not perfectly aligned. This is the PURE geometry: given block bounding boxes it

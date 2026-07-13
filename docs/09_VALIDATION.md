@@ -79,7 +79,7 @@ kicad-cli pcb drc --severity-error --exit-code-violations "$BOARD"
 ```
 
 **EDA-native boards** (EasyEDA): use *that tool's* DRC against the named ruleset
-(e.g. `LightDome-4L-JLC`). Do **not** run KiCad DRC on an EasyEDA-native board —
+(e.g. `<project>-4L-JLC`). Do **not** run KiCad DRC on an EasyEDA-native board —
 the tool-mismatch is a phantom-DRC trap.
 
 A ruleset config (`design_rules.json`) that carries the manufacturer's DFM floor —

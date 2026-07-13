@@ -24,7 +24,7 @@ Chrome · rsync · VS Code · EasyEDA reachability · KiCad. Tools you don't nee
 
 Design: [`../reliability/DEPENDENCY_VALIDATION.md`](../reliability/DEPENDENCY_VALIDATION.md).
 
-## `axon_log.py` — structured logging
+## `pcbflow_log.py` — structured logging
 
 Gives every automation step two safeguards:
 
@@ -36,15 +36,15 @@ Gives every automation step two safeguards:
 
 Read a phase log in plain English:
 ```bash
-python3 tools/axon_log.py render projects/<board>/.logs/<phase>.jsonl
+python3 tools/pcbflow_log.py render projects/<board>/.logs/<phase>.jsonl
 ```
 
 Design: [`../reliability/SELF_HEALING.md`](../reliability/SELF_HEALING.md) §1.
 
-## `test_axon_log.py` — proof it works
+## `test_pcbflow_log.py` — proof it works
 
 ```bash
-python3 tools/test_axon_log.py    # PASS = envelope never swallows, schema correct
+python3 tools/test_pcbflow_log.py    # PASS = envelope never swallows, schema correct
 ```
 
 ## `diagnose.py` — classify a failure (Phase 2)
@@ -79,7 +79,7 @@ construction.
 ## Tests
 
 ```bash
-python3 tools/test_axon_log.py       # Phase 1: logging envelope + schema
+python3 tools/test_pcbflow_log.py       # Phase 1: logging envelope + schema
 python3 tools/test_reliability.py    # Phase 2: diagnose + retry + idempotency
 ```
 
@@ -99,7 +99,7 @@ operations, so an engineer never sees a stack trace.
 ## Tests
 
 ```bash
-python3 tools/test_axon_log.py       # Phase 1: logging envelope + schema
+python3 tools/test_pcbflow_log.py       # Phase 1: logging envelope + schema
 python3 tools/test_reliability.py    # Phase 2: diagnose + retry + idempotency
 python3 tools/test_heal.py           # Phase 3: heal engine + humanize + recovery checks
 ```
@@ -125,7 +125,7 @@ Pure geometry (tested); the live measure/apply needs an EasyEDA session.
 ## Tests (all pass)
 
 ```bash
-python3 tools/test_axon_log.py     # Phase 1
+python3 tools/test_pcbflow_log.py     # Phase 1
 python3 tools/test_reliability.py  # Phase 2
 python3 tools/test_heal.py         # Phase 3
 python3 tools/test_platform.py     # Phase 4

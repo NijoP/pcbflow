@@ -55,7 +55,7 @@ def default_profile_dir(system=None, home=None):
 
 
 def clone_profile_dir(home=None):
-    return Path(home or Path.home()) / ".cache" / "axon-eda-chrome"
+    return Path(home or Path.home()) / ".cache" / "pcbflow-eda-chrome"
 
 
 def lock_files():

@@ -4,7 +4,7 @@ Run: python3 tools/test_heal.py"""
 import tempfile
 import heal as H
 import recovery
-from axon_log import PhaseLogger
+from pcbflow_log import PhaseLogger
 
 
 def _logger(root):

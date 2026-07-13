@@ -45,7 +45,7 @@ attempt captures exactly the fields an audit needs:
   "step": "wire block U3 (IMU)",
   "command": "cdp eval clean_engine.js + s04.js",  // what was executed
   "script": "s04_imu.js",              // generated script (path/name)
-  "stdout_tail": "...OK U3 <- LSM6DS3TR-C",
+  "stdout_tail": "...OK U3 <- imu (SPI, CS+INT wired)",
   "status": "recovered",               // ok | failed | recovered | escalated
   "error": {                            // present only on failure
     "class": "EDA-1",                  // maps to VULNERABILITY_REPORT id
