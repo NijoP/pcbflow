@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 
 from . import (__version__, congestion, dfm, enet as enet_mod, erc, findings, gates, geometry,
-               import_diff, ipc, phases, routing)
+               hw, import_diff, ipc, phases, routing)
 from .project import Project
 
 REPO = Path(__file__).resolve().parent.parent
@@ -288,6 +288,25 @@ def cmd_export(a):
     return 0
 
 
+def cmd_hw(a):
+    """Hardware-correctness checks (Tier 1): pin-type ERC, power tree, component ratings.
+    Needs a parts.json beside the netlist (electrical types + ratings)."""
+    fs = hw.run(a.netlist)
+    if getattr(a, "json", False):
+        print(findings.to_json(fs))
+        return 0 if findings.report(fs)["pass"] else 1
+    rep = findings.report(fs)
+    print(f"hw checks: {rep['errors']} error(s), {rep['warnings']} warning(s)"
+          f"  -> {'PASS' if rep['pass'] else 'FAIL'}")
+    _print_violations(fs)
+    _print_trust(fs)
+    from .parts import Parts
+    if not Parts.beside(a.netlist).designators():
+        print("  (no parts.json beside the netlist — add one with pin types + ratings to enable "
+              "the electrical checks)")
+    return 0 if rep["pass"] else 1
+
+
 def cmd_import_check(a):
     """Phase-10 gate: does the KiCad board match the .enet netlist? (fails loudly on drift)."""
     fs, rep = import_diff.check(a.netlist, a.board)
@@ -378,6 +397,11 @@ def build_parser():
     vf.add_argument("--board", default=None, help="optional board-features JSON for DFM")
     vf.add_argument("--json", action="store_true", help="emit the full audit as JSON")
     vf.set_defaults(fn=cmd_verify)
+
+    hwp = sub.add_parser("hw", help="hardware checks: pin-type ERC, power tree, component ratings")
+    hwp.add_argument("netlist", help="the .enet netlist (with a parts.json beside it)")
+    hwp.add_argument("--json", action="store_true", help="emit harmonized findings as JSON")
+    hwp.set_defaults(fn=cmd_hw)
 
     ck = sub.add_parser("import-check",
                         help="verify a KiCad board matches its .enet netlist (fails loudly)")

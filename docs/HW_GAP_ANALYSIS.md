@@ -30,7 +30,10 @@ harness, but not yet an *electrical-correctness or integrity* harness — the ch
 
 ---
 
-## Tier 1 — Electrical correctness (the "doesn't work / smokes on power-up" class)
+## Tier 1 — Electrical correctness (the "doesn't work / smokes on power-up" class) — ✅ SHIPPED
+
+> **Status:** implemented as `pcbflow hw` (`erc_pins.py` · `power_tree.py` · `ratings.py`), enabled
+> by the `parts.json` data model. HW1–HW3 below are live and tested; HW4 is a rule-table follow-up.
 
 ### HW1 · Pin-type & driver-conflict ERC  *(M)*
 - **Check:** two outputs driving one net, output tied to a power rail, input left unconnected,

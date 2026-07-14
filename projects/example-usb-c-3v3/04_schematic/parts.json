@@ -1,0 +1,96 @@
+{
+  "J1": {
+    "role": "connector",
+    "pins": {
+      "1": "pwr_out",
+      "2": "passive",
+      "3": "passive",
+      "4": "passive"
+    },
+    "ratings": {
+      "v_nominal": 5.0,
+      "iout_max": 3.0
+    }
+  },
+  "U1": {
+    "role": "ldo",
+    "pins": {
+      "1": "pwr_in",
+      "2": "passive",
+      "3": "pwr_in",
+      "5": "pwr_out"
+    },
+    "ratings": {
+      "vin_max": 6.0,
+      "vout": 3.3,
+      "vdropout": 0.25,
+      "iout_max": 0.5
+    }
+  },
+  "C1": {
+    "role": "cap",
+    "pins": {
+      "1": "passive",
+      "2": "passive"
+    },
+    "ratings": {
+      "v_rating": 16.0
+    }
+  },
+  "C2": {
+    "role": "cap",
+    "pins": {
+      "1": "passive",
+      "2": "passive"
+    },
+    "ratings": {
+      "v_rating": 16.0
+    }
+  },
+  "R1": {
+    "role": "resistor",
+    "pins": {
+      "1": "passive",
+      "2": "passive"
+    },
+    "ratings": {
+      "r_ohm": 5100,
+      "p_max": 0.063
+    }
+  },
+  "R2": {
+    "role": "resistor",
+    "pins": {
+      "1": "passive",
+      "2": "passive"
+    },
+    "ratings": {
+      "r_ohm": 5100,
+      "p_max": 0.063
+    }
+  },
+  "R3": {
+    "role": "resistor",
+    "pins": {
+      "1": "passive",
+      "2": "passive"
+    },
+    "ratings": {
+      "r_ohm": 1000,
+      "p_max": 0.063
+    }
+  },
+  "D1": {
+    "role": "led",
+    "pins": {
+      "1": "passive",
+      "2": "passive"
+    },
+    "ratings": {
+      "vf": 2.0,
+      "i_typ": 0.013,
+      "i_max": 0.02,
+      "i_min": 0.001
+    }
+  }
+}

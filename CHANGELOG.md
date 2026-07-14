@@ -7,6 +7,20 @@ All notable changes to PCB Flow are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **Hardware Tier 1 — electrical-correctness checks** (`pcbflow hw`) — the first real
+  electrical (not just geometric) checks, each emitting harmonized findings:
+  - **pin-type ERC** (`pcbflow/erc_pins.py`): driver contention, output-on-power-rail,
+    no-connect-wired, undriven inputs — the drive conflicts a topology ERC can't see.
+  - **power-tree integrity** (`pcbflow/power_tree.py`): unsourced rails, voltage-domain
+    mismatch, and current-budget (Σ load > regulator rating).
+  - **component ratings** (`pcbflow/ratings.py`): capacitor DC-bias derating, LED current
+    `(V−Vf)/R`, resistor `I²R` power, **LDO dropout/brownout**, MOSFET Vds/Vgs margin — the
+    exact failure classes `knowledge/learning-db.md` already paid for.
+  - Enabled by two new data models — `pcbflow/parts.py` (optional `parts.json` sidecar carrying
+    pin electrical types + ratings) and `pcbflow/stackup.py` (physical stack-up for the Tier-2
+    integrity math). Checks degrade gracefully with no parts spec. Scoped in
+    [`docs/HW_IMPLEMENTATION_PLAN.md`](docs/HW_IMPLEMENTATION_PLAN.md); the example ships a
+    `parts.json` that passes clean.
 - **Docs truthing + claims linter** (WS8) — the README now reflects the proven reality: CI /
   license / coverage badges, the worked example described as a **complete, one-command
   reproducible** board, and the "Built now" list updated with machine gates, harmonized

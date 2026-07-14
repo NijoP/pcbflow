@@ -54,6 +54,7 @@ pcbflow enet netlist.enet            # parse + structural verify of an EasyEDA .
 pcbflow erc  netlist.enet            # electrical rule check (floating pins, ground, decoupling)
 pcbflow dfm  board.json              # DRC/DFM vs the JLCPCB profile
 pcbflow verify netlist.enet --board board.json   # phase-5 audit: structure + ERC (+ DFM)
+pcbflow hw   netlist.enet            # electrical checks: pin-type ERC, power tree, ratings (needs parts.json)
 pcbflow import-check netlist.enet board.kicad_pcb # phase-10: does the KiCad board match the netlist?
 pcbflow erc  netlist.enet --json     # harmonized findings as JSON (also on dfm/verify/import-check)
 ```
@@ -81,6 +82,7 @@ pcbflow drc board.kicad_pcb rules.kicad_pro   # KiCad DRC (phantom-guard)
 | Phase order + gating | `pcbflow/phases.py`, `pcbflow/project.py`, `pcbflow/gates.py` |
 | IPC-2221 solver | `pcbflow/ipc.py` |
 | Offline checks (ERC / DFM / spacing) | `pcbflow/erc.py`, `pcbflow/dfm.py`, `pcbflow/geometry.py` |
+| Hardware checks (pin ERC / power tree / ratings) | `pcbflow/hw.py`, `erc_pins.py`, `power_tree.py`, `ratings.py`, `parts.py`, `stackup.py` |
 | KiCad file reader + import diff | `pcbflow/kicad_sexp.py`, `pcbflow/import_diff.py` |
 | Harmonized finding schema | `pcbflow/findings.py` |
 | CLI dispatch | `pcbflow/cli.py` |
