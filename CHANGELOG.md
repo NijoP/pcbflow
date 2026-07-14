@@ -7,6 +7,16 @@ All notable changes to PCB Flow are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **CI + VALIDATION.md** (WS5) — GitHub Actions ([`.github/workflows/ci.yml`](.github/workflows/ci.yml))
+  runs the suite + a ≥80% coverage gate on **ubuntu + macOS + windows × Python 3.9/3.12**, plus
+  an offline worked-example check. New [`VALIDATION.md`](VALIDATION.md) records exactly what is
+  proven (80 tests, ~89% pure-logic coverage, the fixture corpus, the DRC-clean example) and a
+  `NEEDS-LIVE-VALIDATION` ledger (EasyEDA Bridge/CDP, cross-platform launch, live recovery) with
+  manual steps — nothing unproven is claimed as done.
+- **Per-agent entry files** (WS9) — `GEMINI.md`, `.cursor/rules/pcbflow.mdc`, and `llms.txt`
+  join the existing `CLAUDE.md` / `AGENTS.md`, each a thin pointer to the one shared core
+  (workflow + knowledge + CLI). The "works with Claude Code / Codex / OpenCode / Cursor /
+  Gemini" claim is now backed by an entry file per agent.
 - **Packaging + config discipline** (WS7) — `pyproject.toml` gains authors, keywords, PyPI
   classifiers, project URLs, bounded deps, and a pinned `dev` extra; the package installs
   cleanly (`pip install -e .`, `pcbflow --version`) and exposes all 22 CLI verbs. New
