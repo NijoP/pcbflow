@@ -7,6 +7,12 @@ All notable changes to PCB Flow are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **Routing checks against the board** (R2) — `pcbflow/routing_check.py` enforces the rulebook on
+  the routed `.kicad_pcb`: **pour required** (a net ≥ the pour threshold on traces, not a filled
+  pour → error), **trace under-width** (min track width < the IPC-2152 width its current needs →
+  error), **over-length** (net longer than its class max → warning), and **return-path missing**
+  (a high-speed impedance-class net with no GND reference plane → warning). Backed by a new
+  `kicad_sexp.read_pcb_zones()` copper-pour reader.
 - **Codified routing rulebook + IPC-2152 width driver** (R1) — `pcbflow/routing_rules.py` loads a
   `routing_rules.json` the routing phase must obey: per-net-class widths (**derived from current
   via IPC-2152**, `pcbflow/ipc.ipc2152_width_mm`), the high-current **pour threshold** (≥ 2.0 A

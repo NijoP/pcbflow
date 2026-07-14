@@ -219,3 +219,29 @@ def net_lengths(geometry):
         if t["net"]:
             out[t["net"]] = out.get(t["net"], 0.0) + t["length"]
     return {n: round(v, 4) for n, v in out.items()}
+
+
+def read_pcb_zones(path_or_text):
+    """Read copper pours from a `.kicad_pcb`: [{"net", "layer", "filled"}]. `filled` is True when
+    the zone actually has poured copper (a `(filled_polygon …)`), not just a defined outline —
+    which is what the pour-requirement check needs. Feeds the routing checks (R2)."""
+    root = parse(_load(path_or_text))
+    if _tag(root) != "kicad_pcb":
+        raise ValueError(f"not a .kicad_pcb (top tag is {_tag(root)!r})")
+    nettable = {net[1]: net[2] for net in _children(root, "net") if len(net) >= 3}
+    zones = []
+    for z in _children(root, "zone"):
+        net = _pad_net_name(_first(z, "net"), nettable)
+        nname = _first(z, "net_name")
+        if not net and nname and len(nname) >= 2:
+            net = nname[1]
+        layer = _first(z, "layer")
+        zones.append({"net": net,
+                      "layer": layer[1] if layer and len(layer) >= 2 else "",
+                      "filled": _first(z, "filled_polygon") is not None})
+    return zones
+
+
+def poured_nets(zones):
+    """Set of nets that have an actually-filled pour."""
+    return {z["net"] for z in zones if z["filled"] and z["net"]}
