@@ -24,6 +24,25 @@ def trace_width_mm(current_a, delta_t_c=10.0, copper_oz=1.0, internal=False):
     return round(width_mil * 0.0254, 4)          # mil -> mm
 
 
+def ipc2152_width_mm(current_a, delta_t_c=10.0, copper_oz=1.0):
+    """IPC-2152 methodology width (mm) — the width DRIVER for routing.
+
+    IPC-2152 is chart-based (the standard gives no closed-form equation), so we compute the
+    required copper **cross-section** with the IPC-2221B §6.2 power law (the accepted closed form,
+    external coefficient k=0.048) and convert to width using the **actual layer copper thickness**.
+
+    Why IPC-2152 over IPC-2221: IPC-2221 applies a blanket ×2 derate for inner layers (k=0.024).
+    IPC-2152's measured data showed that's overly conservative — inner traces next to planes run
+    cooler — so the inner derating is captured *only* by the thinner copper (JLCPCB inner = 0.5 oz
+    → ~2× the width of a 1 oz outer trace), not an extra k halving. Confirm final widths with the
+    fab's IPC-2152 calculator.
+
+    Sources: IPC-2221B §6.2 (formula); IPC-2152 (area-based, layer-copper-aware); JLCPCB (1 oz
+    outer / 0.5 oz inner).
+    """
+    return trace_width_mm(current_a, delta_t_c, copper_oz=copper_oz, internal=False)
+
+
 def needs_plane(current_a, **kw):
     """True if the required width exceeds the practical trace ceiling (~5 mm)."""
     return trace_width_mm(current_a, **kw) > _PLANE_THRESHOLD_MM

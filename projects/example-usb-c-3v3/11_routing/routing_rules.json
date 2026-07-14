@@ -1,0 +1,41 @@
+{
+  "$standard": "IPC-2152 (width driver) \u00b7 IPC-2221B \u00a76.2 (formula) \u00b7 IPC-2221 \u00a76 (EMI) \u00b7 JLCPCB capability sheet",
+  "fab": "JLCPCB",
+  "delta_t_c": 10.0,
+  "copper_oz": {
+    "outer": 1.0,
+    "inner": 0.5
+  },
+  "pour": {
+    "current_threshold_a": 2.0,
+    "width_threshold_mm": 1.0,
+    "thermal_relief": true,
+    "clearance_mm": 0.2,
+    "$cite": "IPC-2152 (area-based) / JLCPCB pour capability"
+  },
+  "net_classes": {
+    "POWER": {
+      "current_a": 2.0,
+      "$cite": "IPC-2152 @ \u0394T=10 \u00b0C"
+    },
+    "SIGNAL": {
+      "width_mm": 0.25,
+      "$cite": "JLCPCB min 0.09 mm; 0.25 mm practical floor"
+    },
+    "USB_DIFF": {
+      "impedance_ohm": 90.0,
+      "length_match_mm": 0.15,
+      "$cite": "USB 2.0 spec \u2014 90 \u03a9 differential \u00b110%"
+    },
+    "CLK": {
+      "max_length_mm": 50.0,
+      "$cite": "SI practice \u2014 bound clock stub length"
+    }
+  },
+  "emi": {
+    "no_route_over_plane_split": true,
+    "return_path_continuity": true,
+    "clock_isolation_mm": 0.5,
+    "$cite": "IPC-2221 \u00a76; return-path SI practice"
+  }
+}

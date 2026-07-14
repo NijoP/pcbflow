@@ -7,6 +7,13 @@ All notable changes to PCB Flow are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **Codified routing rulebook + IPC-2152 width driver** (R1) — `pcbflow/routing_rules.py` loads a
+  `routing_rules.json` the routing phase must obey: per-net-class widths (**derived from current
+  via IPC-2152**, `pcbflow/ipc.ipc2152_width_mm`), the high-current **pour threshold** (≥ 2.0 A
+  or width > 1.0 mm, ΔT = 10 °C default + per-project override), **EMI** rules, and pour settings.
+  **Every rule carries a citation** (`$cite`) and `validate()` rejects any uncited number.
+  IPC-2152 is the driver (area-based + layer-copper-aware: JLCPCB 1 oz outer / **0.5 oz inner** →
+  ~2× the width); IPC-2221 kept as the (more conservative) reference with the "why 2152" note.
 - **Codified placement via visual mapping** (`pcbflow place-plan`, P1) — placement is planned and
   scored before it executes, never placed blind:
   - `pcbflow/placement_intent.py`: a `placement_intent.json` sidecar capturing board outline,
