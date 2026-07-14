@@ -7,6 +7,12 @@ All notable changes to PCB Flow are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **Packaging + config discipline** (WS7) — `pyproject.toml` gains authors, keywords, PyPI
+  classifiers, project URLs, bounded deps, and a pinned `dev` extra; the package installs
+  cleanly (`pip install -e .`, `pcbflow --version`) and exposes all 22 CLI verbs. New
+  [`docs/CONFIG.md`](docs/CONFIG.md) documents every environment variable in one table with
+  its default, and [`install-guidance.md`](install-guidance.md) captures the platform quirks
+  for the AI agent (Bridge ports, CDP profile, `kicad-cli`, Windows `.py` vs `.sh`).
 - **Worked example is now end-to-end + reproducible in one command** (WS1) — `make example`
   (`tools/reproduce_example.py`) regenerates the board, runs every offline check, writes the
   phase reports, and exports gerbers: netlist structure → ERC → **import-check (board matches

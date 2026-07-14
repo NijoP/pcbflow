@@ -9,11 +9,36 @@ description = "AI-assisted PCB design harness — from requirements to manufactu
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
-dependencies = ["websockets>=10"]   # only used by the headless EasyEDA driver (automation/browser/cdp.py)
+authors = [{ name = "NijoP" }]
+keywords = ["pcb", "eda", "kicad", "easyeda", "electronics", "hardware",
+            "automation", "ai", "drc", "netlist", "pcb-design"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Intended Audience :: Manufacturing",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)",
+]
+# Core is Python-3 standard library only. The single runtime dependency below is used *only*
+# by the headless EasyEDA CDP driver (automation/browser/cdp.py); everything else runs stdlib.
+dependencies = ["websockets>=10,<16"]
 
 [project.optional-dependencies]
-dev = ["pytest>=7"]
+dev = ["pytest>=7,<9", "coverage>=7,<8"]
 mcp = ["mcp>=1.2"]
+
+[project.urls]
+Homepage = "https://github.com/NijoP/pcbflow"
+Repository = "https://github.com/NijoP/pcbflow"
+Changelog = "https://github.com/NijoP/pcbflow/blob/main/CHANGELOG.md"
+Issues = "https://github.com/NijoP/pcbflow/issues"
 
 [project.scripts]
 pcbflow = "pcbflow.cli:main"
