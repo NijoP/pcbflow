@@ -1,5 +1,10 @@
 # PCB Flow — Autonomous AI-Driven PCB Design (EasyEDA → KiCad)
 
+[![CI](https://github.com/NijoP/pcbflow/actions/workflows/ci.yml/badge.svg)](https://github.com/NijoP/pcbflow/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](pyproject.toml)
+[![coverage ~89%](https://img.shields.io/badge/coverage-~89%25-brightgreen.svg)](VALIDATION.md)
+
 **Autonomous AI PCB design workflow — take a hardware project from requirements to
 manufacturing-ready files, with the engineer in the loop.**
 
@@ -152,12 +157,10 @@ Markdown (`CLAUDE.md`, `AGENTS.md`, `workflow/`), which any capable agent can fo
 3. **Check your environment:** run `python3 tools/doctor.py` — it lists each tool with
    ✅ / ⚠️ / ❌ and tells you how to fix anything missing.
 4. **See a worked example first** — [`projects/example-usb-c-3v3/`](projects/example-usb-c-3v3/)
-   is a worked reference (USB-C → 3.3 V + status LED). Today it's the **front half** of the
-   workflow — brief → feasibility → BOM → schematic netlist; the end-to-end
-   placement/routing/DRC/gerber build is landing next (see [`ROADMAP.md`](ROADMAP.md)). Its
-   netlist is machine-checkable:
+   is a complete reference board (USB-C → 3.3 V + status LED), reproducible **end to end with one
+   command** — netlist → ERC → board-matches-netlist → `kicad-cli` **DRC-clean** → gerbers:
    ```
-   python3 -m pcbflow.enet projects/example-usb-c-3v3/04_schematic/netlist.enet
+   make example        # or: python3 tools/reproduce_example.py
    ```
 5. **Create your first project** — [`handbook/04`](handbook/04-your-first-project.md):
    ```
@@ -173,13 +176,18 @@ rest.
 
 ## 8. Roadmap
 
-- **✅ Built now:** the 12-phase workflow, the AI agent roster, EasyEDA + KiCad
-  automation, the engineering knowledge base, and a reliability layer (environment check,
-  auto-diagnosis, safe retry, phantom-DRC guard, checkpoint/resume, cross-platform tools).
-  Structured logging and the self-healing recovery engine are built and unit-tested but
-  **opt-in** — not yet wired into every phase (see [`AUDIT.md`](AUDIT.md)).
-- **🚧 In progress:** live-session validation of the recovery strategies; macOS/Windows
-  validation; a public end-to-end example project.
+- **✅ Built now:** the 12-phase workflow with **machine-computed gates** (each checkpoint runs
+  its real checks) and a **hard-blocked manufacturing export**; the AI agent roster; EasyEDA +
+  KiCad automation; a **harmonized findings schema** behind ERC / DFM / spacing; an **offline
+  KiCad reader + import-diff** that proves the board matches the netlist; a **reproducible
+  end-to-end worked example** (DRC-clean board + gerbers via `make example`); the engineering
+  knowledge base; a **known-good + known-bad fixture corpus**; **CI** on ubuntu/macOS/windows
+  with an ~89% coverage gate; and a reliability layer (environment check, auto-diagnosis, safe
+  retry, phantom-DRC guard, checkpoint/resume, cross-platform tools). Structured logging and the
+  self-healing recovery engine are built and unit-tested but **opt-in** — not yet wired into
+  every phase (see [`AUDIT.md`](AUDIT.md)).
+- **🚧 In progress:** live-session validation of the EasyEDA Bridge/CDP transport and the
+  recovery strategies; macOS/Windows host validation — tracked in [`VALIDATION.md`](VALIDATION.md).
 - **🔭 Planned:** a branded CLI, a source-of-truth linter, deeper KiCad routing
   automation, more AI-agent adapters.
 - **🧪 Research:** one-command "board recompile" from the knowledge layer; a

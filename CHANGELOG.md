@@ -7,6 +7,12 @@ All notable changes to PCB Flow are documented here. Format follows
 ## [Unreleased]
 
 ### Added
+- **Docs truthing + claims linter** (WS8) — the README now reflects the proven reality: CI /
+  license / coverage badges, the worked example described as a **complete, one-command
+  reproducible** board, and the "Built now" list updated with machine gates, harmonized
+  findings, import-diff, the fixture corpus, and CI. New `tools/check_claims.py` (run in the
+  test suite) fails if any documented Markdown link points at a missing artifact — enforcing
+  "no aspirational documentation."
 - **CI + VALIDATION.md** (WS5) — GitHub Actions ([`.github/workflows/ci.yml`](.github/workflows/ci.yml))
   runs the suite + a ≥80% coverage gate on **ubuntu + macOS + windows × Python 3.9/3.12**, plus
   an offline worked-example check. New [`VALIDATION.md`](VALIDATION.md) records exactly what is
