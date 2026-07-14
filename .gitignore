@@ -38,3 +38,8 @@ htmlcov/
 
 # KiCad local per-user settings sidecar (not source)
 *.kicad_prl
+
+# reproducible kicad-cli outputs (timestamped build artifacts)
+*.drc.rpt
+drc.rpt
+*.egg-info/

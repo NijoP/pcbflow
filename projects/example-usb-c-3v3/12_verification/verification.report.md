@@ -8,7 +8,7 @@
 | netlist structure | PASS | netlist structurally clean |
 | ERC | PASS | 0 error(s), 0 warning(s) |
 | import-check | PASS | board matches the netlist |
-| DRC | PASS | DRC report → projects/example-usb-c-3v3/12_verification/drc.rpt |
+| DRC | PASS | 0 violations / 0 unconnected |
 | gerbers | PASS | 22 fab file(s) → projects/example-usb-c-3v3/12_verification/gerbers |
 | BOM | PASS | 6 BOM line(s) → projects/example-usb-c-3v3/12_verification/bom.csv |
 

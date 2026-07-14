@@ -90,9 +90,19 @@ def step_drc():
     rpt.parent.mkdir(parents=True, exist_ok=True)
     r = _run("kicad-cli", "pcb", "drc", "--severity-error", "--exit-code-violations",
              "--output", rpt, BOARD)
+    counts = ""
+    try:
+        import re
+        txt = rpt.read_text(encoding="utf-8")
+        v = re.search(r"Found (\d+) DRC violations", txt)
+        u = re.search(r"Found (\d+) unconnected", txt)
+        if v and u:
+            counts = f"{v.group(1)} violations / {u.group(1)} unconnected"
+    except OSError:
+        pass
     return ("PASS" if r.returncode == 0 else "FAIL",
-            f"DRC report → {rpt.relative_to(REPO)}"
-            + ("" if r.returncode == 0 else f" (violations; exit {r.returncode})"))
+            (counts or f"DRC report → {rpt.name}")
+            + ("" if r.returncode == 0 else f" (exit {r.returncode})"))
 
 
 def step_gerbers():
